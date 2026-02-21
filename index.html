@@ -23,7 +23,7 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
 <body>
 
 <div id="channelSelect">
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_sarisari/default/index.mpd" data-key="0a7ab3612f434335aa6e895016d8cd2d:b21654621230ae21714a5cab52daeb9d">
+  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_sarisari/default/index.mpd" data-key="0a7ab3612f434335aa6e895016d8cd2d:b21654621230ae21714a5cab62daeb9d">
     <img src="https://static.wikia.nocookie.net/russel/images/e/ec/Sari-Sari_Channel_2D_Logo_2016.png/revision/latest?cb=20190317023940">
     <div class="channelCode">SARI-SARI</div>
   </div>
@@ -47,6 +47,20 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
     <img src="https://static.wikia.nocookie.net/russel/images/8/85/A2Z_Channel_11_without_Channel_11_3D_Logo_2020.png/revision/latest?cb=20231101144828">
     <div class="channelCode">A2Z</div>
   </div>
+
+  <!-- Added Channels -->
+  <div class="channelBtn" data-manifest="https://golden-television-network-gtn.ostamark484.workers.dev/" data-key="">
+    <img src="https://i.imgur.com/urWAPgv.png">
+    <div class="channelCode">GOLDEN TV</div>
+  </div>
+  <div class="channelBtn" data-manifest="https://gsattv.akamaized.net/live/media0/gma7/Widevine/gma7.mpd" data-key="">
+    <img src="https://i.imgur.com/nMSt2j0.png">
+    <div class="channelCode">GMA</div>
+  </div>
+  <div class="channelBtn" data-manifest="https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/54afaecb-9608-4827-a19a-e1a2d2f498d5/index.mpd" data-key="">
+    <img src="https://i.imgur.com/fRETRXx.png">
+    <div class="channelCode">KAPAMILYA CHANNEL</div>
+  </div>
 </div>
 
 <div id="playerContainer">
@@ -66,8 +80,10 @@ let badgeTimeout;
 async function initPlayer(manifest, key) {
   if (player) { player.destroy(); }
   player = new shaka.Player(video);
-  const [kid, kvalue] = key.split(':');
-  player.configure({ drm: { clearKeys: { [kid]: kvalue } }, streaming: { lowLatencyMode:true, rebufferingGoal:0.5, bufferingGoal:6 } });
+  if(key){
+    const [kid, kvalue] = key.split(':');
+    player.configure({ drm: { clearKeys: { [kid]: kvalue } }, streaming: { lowLatencyMode:true, rebufferingGoal:0.5, bufferingGoal:6 } });
+  }
   try { await player.load(manifest); } catch(e){ console.error(e); }
   video.muted = false;
 }
