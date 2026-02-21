@@ -16,7 +16,7 @@ html, body { margin:0; height:100%; background:#000; display:flex; justify-conte
 video { width:100%; height:100%; object-fit:contain; background:#000; }
 #liveBadge { position:absolute; top:14px; left:14px; background:#d00000; color:#fff; font-size:12px; padding:6px 10px; border-radius:4px; font-weight:bold; letter-spacing:.5px; display:flex; align-items:center; gap:6px; }
 #dot { width:8px; height:8px; background:#fff; border-radius:50%; animation:pulse 1.2s infinite; }
-#backBtn { position:absolute; top:14px; right:14px; background:#222; color:#fff; font-size:14px; padding:6px 12px; border-radius:6px; cursor:pointer; display:none; }
+#backBtn { position:absolute; top:14px; right:14px; background:#222; color:#fff; font-size:14px; padding:6px 12px; border-radius:6px; cursor:pointer; display:none; z-index:1000; }
 @keyframes pulse { 0%{opacity:1} 50%{opacity:.3} 100%{opacity:1} }
 </style>
 </head>
@@ -52,7 +52,7 @@ video { width:100%; height:100%; object-fit:contain; background:#000; }
 <div id="playerContainer">
   <div id="liveBadge"><span id="dot"></span>LIVE</div>
   <button id="backBtn">BACK</button>
-  <video id="video" autoplay playsinline muted=false></video>
+  <video id="video" autoplay playsinline></video>
 </div>
 
 <script>
@@ -67,6 +67,7 @@ async function initPlayer(manifest, key) {
   const [kid, kvalue] = key.split(':');
   player.configure({ drm: { clearKeys: { [kid]: kvalue } }, streaming: { lowLatencyMode:true, rebufferingGoal:0.5, bufferingGoal:6 } });
   try { await player.load(manifest); } catch(e){ console.error(e); }
+  video.muted = false;
 }
 
 document.querySelectorAll('.channelBtn').forEach(btn => {
@@ -77,13 +78,16 @@ document.querySelectorAll('.channelBtn').forEach(btn => {
     const manifest = btn.dataset.manifest;
     const key = btn.dataset.key;
     await initPlayer(manifest,key);
-    try { await video.play(); video.muted=false; } catch(e){}
-    if(playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
+    try { await video.play(); } catch(e){}
+    if(document.fullscreenElement==null && playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
     video.controls = false;
   });
 });
 
 backBtn.addEventListener('click', ()=>{
+  if(document.fullscreenElement) {
+    document.exitFullscreen().catch(()=>{});
+  }
   playerContainer.style.display='none';
   document.getElementById('channelSelect').style.display='flex';
   backBtn.style.display='none';
