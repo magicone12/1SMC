@@ -16,6 +16,7 @@ html, body { margin:0; height:100%; background:#000; display:flex; justify-conte
 video { width:100%; height:100%; object-fit:contain; background:#000; }
 #liveBadge { position:absolute; top:14px; left:14px; background:#d00000; color:#fff; font-size:12px; padding:6px 10px; border-radius:4px; font-weight:bold; letter-spacing:.5px; display:flex; align-items:center; gap:6px; }
 #dot { width:8px; height:8px; background:#fff; border-radius:50%; animation:pulse 1.2s infinite; }
+#backBtn { position:absolute; top:14px; right:14px; background:#222; color:#fff; font-size:14px; padding:6px 12px; border-radius:6px; cursor:pointer; display:none; }
 @keyframes pulse { 0%{opacity:1} 50%{opacity:.3} 100%{opacity:1} }
 </style>
 </head>
@@ -50,12 +51,14 @@ video { width:100%; height:100%; object-fit:contain; background:#000; }
 
 <div id="playerContainer">
   <div id="liveBadge"><span id="dot"></span>LIVE</div>
-  <video id="video" autoplay playsinline muted></video>
+  <button id="backBtn">BACK</button>
+  <video id="video" autoplay playsinline muted=false></video>
 </div>
 
 <script>
 const video = document.getElementById('video');
 const playerContainer = document.getElementById('playerContainer');
+const backBtn = document.getElementById('backBtn');
 let player;
 
 async function initPlayer(manifest, key) {
@@ -70,13 +73,21 @@ document.querySelectorAll('.channelBtn').forEach(btn => {
   btn.addEventListener('click', async ()=>{
     document.getElementById('channelSelect').style.display='none';
     playerContainer.style.display='block';
+    backBtn.style.display = 'block';
     const manifest = btn.dataset.manifest;
     const key = btn.dataset.key;
     await initPlayer(manifest,key);
-    try { await video.play(); } catch(e){}
+    try { await video.play(); video.muted=false; } catch(e){}
     if(playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
     video.controls = false;
   });
+});
+
+backBtn.addEventListener('click', ()=>{
+  playerContainer.style.display='none';
+  document.getElementById('channelSelect').style.display='flex';
+  backBtn.style.display='none';
+  if(player) player.destroy();
 });
 </script>
 
