@@ -312,6 +312,13 @@ let player;
       });
     }
 
+ try{
+      await player.load(manifest);
+    }catch(e){
+      console.error(e);
+    }
+  }
+    
   try{
   await player.load(manifest);
 }catch(e){
@@ -387,6 +394,7 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
 
 
 
