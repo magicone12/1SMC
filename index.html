@@ -312,12 +312,49 @@ async function initPlayer(manifest, key){
       });
     }
 
-   try{
-      await player.load(manifest);
-    }catch(e){
-      console.error(e);
+ try{
+  await player.load(manifest);
+}catch(e){
+  console.log("Shaka failed, trying video.js", e);
+
+  if(manifest.includes('.m3u8')){
+    if(player){
+      await player.destroy();
+      player = null;
     }
+
+    video.classList.add('video-js','vjs-default-skin');
+
+    const vjs = videojs(video, {
+      autoplay:true,
+      controls:false,
+      liveui:true,
+      preload:'auto',
+      sources:[{
+        src: manifest,
+        type:'application/x-mpegURL'
+      }]
+    });
+
+    vjs.ready(function(){
+
+      // tanggalin loading spinner
+      if(vjs.loadingSpinner){
+        vjs.loadingSpinner.hide();
+      }
+
+      // show LIVE + BACK
+      liveBadge.style.opacity = 1;
+      backBtn.style.opacity   = 1;
+
+      // fullscreen din
+      if(document.fullscreenElement == null && playerContainer.requestFullscreen){
+        playerContainer.requestFullscreen().catch(()=>{});
+      }
+
+    });
   }
+}
 
   video.muted = false;
   video.play().catch(()=>{});
@@ -374,6 +411,7 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
 
 
 
