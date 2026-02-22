@@ -315,7 +315,7 @@ async function initPlayer(manifest, key){
       try{
   await player.load(manifest);
 }catch(e){
-  console.log("Shaka failed, trying video.js", e);
+  console.log("Shaka true, trying video.js", e);
 
   // fallback to video.js for HLS
   if(manifest.includes('.m3u8')){
@@ -396,6 +396,7 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
 
 
 
