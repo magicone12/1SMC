@@ -1,8 +1,3 @@
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,27 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>1SANMATEOCABLE</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.compiled.js"></script>
-  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
 <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 <style>
-html, body { margin:0; height:100%; background:#000; display:flex; flex-direction:column; }
-#topBar{ position:fixed; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#0f0f0f; border-bottom:1px solid #222; z-index:1000; transition: opacity 0.3s; }
-#appName{ color:#fff; font-size:18px; font-weight:700; letter-spacing:1px; }
+html, body {
+  margin:0; height:100%; background:#000; display:flex; flex-direction:column;
+}
+#topBar{
+  position:fixed; top:0; left:0; width:100%; display:flex; align-items:center;
+  justify-content:space-between; padding:12px 16px; background:#0f0f0f;
+  border-bottom:1px solid #222; z-index:1000;
+}
+#appName{ color:#fff; font-size:18px; font-weight:700; }
 #menuBtns{ display:flex; gap:14px; }
 .menuBtn{ background:#1f1f1f; color:#fff; border:none; padding:8px 50px; border-radius:8px; cursor:pointer; font-size:13px; }
 .menuBtn.active{ background:#d00000; }
 #mainWrap{ flex:1; margin-top:80px; display:flex; justify-content:center; align-items:flex-start; padding:20px; }
-#channelSelect { display:grid; grid-template-columns:repeat(4, 1fr); gap:20px; justify-items:center; align-items:center; background:#111; padding:20px; border-radius:12px; transition: opacity 0.3s; }
+#channelSelect { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; justify-items:center; align-items:center; background:#111; padding:20px; border-radius:12px; }
 .channelBtn { width:140px; height:140px; border-radius:12px; background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 0 10px rgba(255,255,255,.15); transition: transform 0.2s; }
 .channelBtn:hover { transform: scale(1.05); }
 .channelBtn img { max-width:85%; max-height:85%; border-radius:8px; }
 .channelCode { margin-top:6px; color:#fff; font-size:12px; background:rgba(0,0,0,0.4); padding:2px 6px; border-radius:4px; text-align:center; }
-#playerContainer { position:fixed; inset:0; display:none; z-index:1001; }
+#playerContainer { position:fixed; inset:0; display:none; z-index:1001; background:#000; }
 video { width:100%; height:100%; object-fit:contain; background:#000; cursor:pointer; }
-#liveBadge { position:absolute; top:14px; left:14px; background:rgba(208,0,0,0.5); color:#fff; font-size:12px; padding:6px 10px; border-radius:4px; font-weight:bold; letter-spacing:.5px; display:flex; align-items:center; gap:6px; opacity:0; transition: opacity 0.3s; }
+#liveBadge { position:absolute; top:14px; left:14px; background:rgba(208,0,0,0.5); color:#fff; font-size:12px; padding:6px 10px; border-radius:4px; font-weight:bold; display:flex; align-items:center; gap:6px; opacity:1; }
 #dot { width:8px; height:8px; background:#fff; border-radius:50%; animation:pulse 1.2s infinite; }
-#backBtn { position:absolute; top:14px; right:14px; background:rgba(34,34,34,0.5); color:#fff; font-size:14px; padding:6px 12px; border-radius:6px; cursor:pointer; opacity:0; transition: opacity 0.3s; z-index:1002; }
+#backBtn { position:absolute; top:14px; right:14px; background:rgba(34,34,34,0.5); color:#fff; font-size:14px; padding:6px 12px; border-radius:6px; cursor:pointer; opacity:1; z-index:1002; }
 @keyframes pulse { 0%{opacity:1} 50%{opacity:.3} 100%{opacity:1} }
+/* Hide video.js spinner */
+.vjs-loading-spinner { display:none !important; }
 </style>
 </head>
 <body>
@@ -45,222 +48,19 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
 </div>
 
 <div id="mainWrap">
-<div id="channelSelect">
-  <!-- Channels including MP4 video -->
-   <div class="channelBtn" data-manifest="https://gsattv.akamaized.net/live/media0/gma7/Widevine/gma7.mpd" data-type="IPTV">
-    <img src="https://i.imgur.com/nMSt2j0.png">
-    <div class="channelCode">GMA</div>
+  <div id="channelSelect">
+    <!-- Example Channels -->
+    <div class="channelBtn" data-manifest="https://gsattv.akamaized.net/live/media0/gma7/Widevine/gma7.mpd" data-type="IPTV">
+      <img src="https://i.imgur.com/nMSt2j0.png"><div class="channelCode">GMA</div>
+    </div>
+    <div class="channelBtn" data-manifest="https://tiny-flower-83bb.ostamark484.workers.dev/stream.m3u8" data-type="IPTV">
+      <img src="https://i.imgur.com/PALAEXx.jpeg"><div class="channelCode">I HEART MOVIES</div>
+    </div>
+    <div class="channelBtn" data-manifest="https://ia600802.us.archive.org/29/items/if-only-lea-salonga-lyrics-720-p-hd/If%20Only%20-%20Lea%20Salonga%20-%20Lyrics%28720P_HD%29.ia.mp4" data-type="MOVIES">
+      <img src="https://i.imgur.com/fRETRXx.png"><div class="channelCode">LEA SALONGA MP4</div>
+    </div>
+    <!-- Add the rest of your channels in the same format -->
   </div>
-   <div class="channelBtn" data-manifest="https://kalibonco.qzz.io/001/2/ch00000090990000001143/manifest.mpd?AuthInfo=v87HD9rEhwHiAdYyrP20TsXah2%2FZLFNNIdWrVrXDMArwAtJC%2BsmBQ5ARU076BdkhsyK4TH4mOENKJ45mwOyS0g%3D%3D&version=v1.0&BreakPoint=0&virtualDomain=001.live_hls.zte.com&programid=ch00000000000000001313&contentid=ch00000000000000001313&videoid=ch00000090990000001143&recommendtype=0&userid=1430687738767&boid=001&stbid=02%3A00%3A00%3A00%3A00%3A00&terminalflag=1&profilecode=&usersessionid=VTF7PQ0PAOMXXX&NeedJITP=1&JITPMediaType=DASH&JITPDRMType=NO" data-type="IPTV">
-    <img src="https://i.imgur.com/txozMGM.png">
-    <div class="channelCode">GTV</div>
-  </div>
-   <div class="channelBtn" data-manifest="https://still-union-b4e1.ostamark484.workers.dev/" data-type="IPTV">
-    <img src="https://i.imgur.com/1bPpXUt.png">
-    <div class="channelCode">HEART OF ASIA</div>
-  </div>
-   <div class="channelBtn" data-manifest="https://tiny-flower-83bb.ostamark484.workers.dev/stream.m3u8" data-type="IPTV">
-    <img src="https://i.imgur.com/PALAEXx.jpeg">
-    <div class="channelCode">I HEART MOVIES</div>
-  </div>
-   <div class="channelBtn" data-manifest="https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-cinemaone-dash-abscbnono/index.mpd" data-type="IPTV">
-    <img src="https://i.imgur.com/moSPpuJ.png">
-    <div class="channelCode">CINEMA ONE</div>
-  </div>
-   <div class="channelBtn" data-manifest="https://saanmaateocable-cinemo.ostamark484.workers.dev/" data-type="IPTV">
-    <img src="https://i.imgur.com/2Jn7QHG.png">
-    <div class="channelCode">CINEMO!</div>
-  </div>
-   <div class="channelBtn" data-manifest="https://wandering-scene-0db6.ostamark484.workers.dev/stream.m3u8" data-type="IPTV">
-    <img src="https://i.imgur.com/KIkQd8q.png">
-    <div class="channelCode">LOTUS MACAU</div>
-  </div>
-   <div class="channelBtn" data-manifest="https://243529.global.ssl.fastly.net/6842a712b68c56f675d988f1/live_f5ac22b0566511f0805217b960326aaa/tracks-v1/index.fmp4.m3u8" data-type="IPTV">
-    <img src="https://i.imgur.com/Kyf5KYg.png">
-    <div class="channelCode">INC TV</div>
-  </div>
-  
-  
-  
-  
-  
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_sarisari/default/index.mpd" data-key="0a7ab3612f434335aa6e895016d8cd2d:b21654621230ae21714a5cab62daeb9d" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/e/ec/Sari-Sari_Channel_2D_Logo_2016.png/revision/latest?cb=20190317023940">
-    <div class="channelCode">SARI-SARI</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://ia600802.us.archive.org/29/items/if-only-lea-salonga-lyrics-720-p-hd/If%20Only%20-%20Lea%20Salonga%20-%20Lyrics%28720P_HD%29.ia.mp4" data-type="MOVIES">
-    <img src="https://i.imgur.com/fRETRXx.png">
-    <div class="channelCode">LEA SALONGA MP4</div>
-  </div>
-
-  <!-- IPTV Channels -->
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_sarisari/default/index.mpd" data-key="0a7ab3612f434335aa6e895016d8cd2d:b21654621230ae21714a5cab62daeb9d" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/e/ec/Sari-Sari_Channel_2D_Logo_2016.png/revision/latest?cb=20190317023940">
-    <div class="channelCode">SARI-SARI</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_ptv4_sd/default/index.mpd" data-key="71a130a851b9484bb47141c8966fb4a3:ad1f003b4f0b31b75ea4593844435600" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/d/dc/PTV_4_Para_Sa_Bayan_Alternative_Logo_June_2017.png/revision/latest?cb=20171019065428">
-    <div class="channelCode">PTV4</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/onenews_hd1/default/index.mpd" data-key="d39eb201ae494a0b98583df4d110e8dd:6797066880d344422abd3f5eda41f45f" data-type="IPTV">
-    <img src="https://i.imgur.com/bpRiu54.png">
-    <div class="channelCode">OneNews</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cnn_rptv_prod_hd/default/index.mpd" data-key="1917f4caf2364e6d9b1507326a85ead6:a1340a251a5aa63a9b0ea5d9d7f67595" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/f/fb/RPTV_Alternative_Logo_2024.png/revision/latest?cb=20240305140432">
-    <div class="channelCode">RPTV</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/tv5_hd/default1/index.mpd" data-key="2615129ef2c846a9bbd43a641c7303ef:07c7f996b1734ea288641a68e1cfdc4d" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/7/7a/TV5_HD_Logo_2024.png/revision/latest/scale-to-width-down/290?cb=20240202141126">
-    <div class="channelCode">TV5</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_a2z/default/index.mpd" data-key="f703e4c8ec9041eeb5028ab4248fa094:c22f2162e176eee6273a5d0b68d19530" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/8/85/A2Z_Channel_11_without_Channel_11_3D_Logo_2020.png/revision/latest?cb=20231101144828">
-    <div class="channelCode">A2Z</div>
-  </div>
-
-  <!-- Movies Channels -->
-  <div class="channelBtn" data-manifest="https://golden-television-network-gtn.ostamark484.workers.dev/" data-type="MOVIES">
-    <img src="https://i.imgur.com/urWAPgv.png">
-    <div class="channelCode">GOLDEN TV</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/54afaecb-9608-4827-a19a-e1a2d2f498d5/index.mpd" data-type="MOVIES">
-    <img src="https://i.imgur.com/fRETRXx.png">
-    <div class="channelCode">KAPAMILYA CHANNEL</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://gsattv.akamaized.net/live/media0/gma7/Widevine/gma7.mpd" data-type="MOVIES2">
-    <img src="https://i.imgur.com/nMSt2j0.png">
-    <div class="channelCode">GMA</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://ia600802.us.archive.org/29/items/if-only-lea-salonga-lyrics-720-p-hd/If%20Only%20-%20Lea%20Salonga%20-%20Lyrics%28720P_HD%29.ia.mp4" data-type="MOVIES2">
-    <img src="https://i.imgur.com/fRETRXx.png">
-    <div class="channelCode">MOVIE SAMPLE</div>
-  </div>
-  <!-- IPTV Channels -->
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_sarisari/default/index.mpd" data-key="0a7ab3612f434335aa6e895016d8cd2d:b21654621230ae21714a5cab62daeb9d" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/e/ec/Sari-Sari_Channel_2D_Logo_2016.png/revision/latest?cb=20190317023940">
-    <div class="channelCode">SARI-SARI</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_ptv4_sd/default/index.mpd" data-key="71a130a851b9484bb47141c8966fb4a3:ad1f003b4f0b31b75ea4593844435600" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/d/dc/PTV_4_Para_Sa_Bayan_Alternative_Logo_June_2017.png/revision/latest?cb=20171019065428">
-    <div class="channelCode">PTV4</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/onenews_hd1/default/index.mpd" data-key="d39eb201ae494a0b98583df4d110e8dd:6797066880d344422abd3f5eda41f45f" data-type="IPTV">
-    <img src="https://i.imgur.com/bpRiu54.png">
-    <div class="channelCode">OneNews</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cnn_rptv_prod_hd/default/index.mpd" data-key="1917f4caf2364e6d9b1507326a85ead6:a1340a251a5aa63a9b0ea5d9d7f67595" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/f/fb/RPTV_Alternative_Logo_2024.png/revision/latest?cb=20240305140432">
-    <div class="channelCode">RPTV</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/tv5_hd/default1/index.mpd" data-key="2615129ef2c846a9bbd43a641c7303ef:07c7f996b1734ea288641a68e1cfdc4d" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/7/7a/TV5_HD_Logo_2024.png/revision/latest/scale-to-width-down/290?cb=20240202141126">
-    <div class="channelCode">TV5</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_a2z/default/index.mpd" data-key="f703e4c8ec9041eeb5028ab4248fa094:c22f2162e176eee6273a5d0b68d19530" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/8/85/A2Z_Channel_11_without_Channel_11_3D_Logo_2020.png/revision/latest?cb=20231101144828">
-    <div class="channelCode">A2Z</div>
-  </div>
-
-  <!-- Movies Channels -->
-  <div class="channelBtn" data-manifest="https://golden-television-network-gtn.ostamark484.workers.dev/" data-type="MOVIES">
-    <img src="https://i.imgur.com/urWAPgv.png">
-    <div class="channelCode">GOLDEN TV</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/54afaecb-9608-4827-a19a-e1a2d2f498d5/index.mpd" data-type="MOVIES">
-    <img src="https://i.imgur.com/fRETRXx.png">
-    <div class="channelCode">KAPAMILYA CHANNEL</div>
-  </div>
- 
-  <div class="channelBtn" data-manifest="https://ia600802.us.archive.org/29/items/if-only-lea-salonga-lyrics-720-p-hd/If%20Only%20-%20Lea%20Salonga%20-%20Lyrics%28720P_HD%29.ia.mp4" data-type="MOVIES2">
-    <img src="https://i.imgur.com/fRETRXx.png">
-    <div class="channelCode">MOVIE SAMPLE</div>
-  </div><!-- IPTV Channels -->
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_sarisari/default/index.mpd" data-key="0a7ab3612f434335aa6e895016d8cd2d:b21654621230ae21714a5cab62daeb9d" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/e/ec/Sari-Sari_Channel_2D_Logo_2016.png/revision/latest?cb=20190317023940">
-    <div class="channelCode">SARI-SARI</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_ptv4_sd/default/index.mpd" data-key="71a130a851b9484bb47141c8966fb4a3:ad1f003b4f0b31b75ea4593844435600" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/d/dc/PTV_4_Para_Sa_Bayan_Alternative_Logo_June_2017.png/revision/latest?cb=20171019065428">
-    <div class="channelCode">PTV4</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/onenews_hd1/default/index.mpd" data-key="d39eb201ae494a0b98583df4d110e8dd:6797066880d344422abd3f5eda41f45f" data-type="IPTV">
-    <img src="https://i.imgur.com/bpRiu54.png">
-    <div class="channelCode">OneNews</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cnn_rptv_prod_hd/default/index.mpd" data-key="1917f4caf2364e6d9b1507326a85ead6:a1340a251a5aa63a9b0ea5d9d7f67595" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/f/fb/RPTV_Alternative_Logo_2024.png/revision/latest?cb=20240305140432">
-    <div class="channelCode">RPTV</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/tv5_hd/default1/index.mpd" data-key="2615129ef2c846a9bbd43a641c7303ef:07c7f996b1734ea288641a68e1cfdc4d" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/7/7a/TV5_HD_Logo_2024.png/revision/latest/scale-to-width-down/290?cb=20240202141126">
-    <div class="channelCode">TV5</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_a2z/default/index.mpd" data-key="f703e4c8ec9041eeb5028ab4248fa094:c22f2162e176eee6273a5d0b68d19530" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/8/85/A2Z_Channel_11_without_Channel_11_3D_Logo_2020.png/revision/latest?cb=20231101144828">
-    <div class="channelCode">A2Z</div>
-  </div>
-
-  <!-- Movies Channels -->
-  <div class="channelBtn" data-manifest="https://golden-television-network-gtn.ostamark484.workers.dev/" data-type="MOVIES">
-    <img src="https://i.imgur.com/urWAPgv.png">
-    <div class="channelCode">GOLDEN TV</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/54afaecb-9608-4827-a19a-e1a2d2f498d5/index.mpd" data-type="MOVIES">
-    <img src="https://i.imgur.com/fRETRXx.png">
-    <div class="channelCode">KAPAMILYA CHANNEL</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://gsattv.akamaized.net/live/media0/gma7/Widevine/gma7.mpd" data-type="MOVIES2">
-    <img src="https://i.imgur.com/nMSt2j0.png">
-    <div class="channelCode">GMA</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://ia600802.us.archive.org/29/items/if-only-lea-salonga-lyrics-720-p-hd/If%20Only%20-%20Lea%20Salonga%20-%20Lyrics%28720P_HD%29.ia.mp4" data-type="MOVIES2">
-    <img src="https://i.imgur.com/fRETRXx.png">
-    <div class="channelCode">MOVIE SAMPLE</div>
-  </div><!-- IPTV Channels -->
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_sarisari/default/index.mpd" data-key="0a7ab3612f434335aa6e895016d8cd2d:b21654621230ae21714a5cab62daeb9d" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/e/ec/Sari-Sari_Channel_2D_Logo_2016.png/revision/latest?cb=20190317023940">
-    <div class="channelCode">SARI-SARI</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_ptv4_sd/default/index.mpd" data-key="71a130a851b9484bb47141c8966fb4a3:ad1f003b4f0b31b75ea4593844435600" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/d/dc/PTV_4_Para_Sa_Bayan_Alternative_Logo_June_2017.png/revision/latest?cb=20171019065428">
-    <div class="channelCode">PTV4</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/onenews_hd1/default/index.mpd" data-key="d39eb201ae494a0b98583df4d110e8dd:6797066880d344422abd3f5eda41f45f" data-type="IPTV">
-    <img src="https://i.imgur.com/bpRiu54.png">
-    <div class="channelCode">OneNews</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cnn_rptv_prod_hd/default/index.mpd" data-key="1917f4caf2364e6d9b1507326a85ead6:a1340a251a5aa63a9b0ea5d9d7f67595" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/f/fb/RPTV_Alternative_Logo_2024.png/revision/latest?cb=20240305140432">
-    <div class="channelCode">RPTV</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/tv5_hd/default1/index.mpd" data-key="2615129ef2c846a9bbd43a641c7303ef:07c7f996b1734ea288641a68e1cfdc4d" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/7/7a/TV5_HD_Logo_2024.png/revision/latest/scale-to-width-down/290?cb=20240202141126">
-    <div class="channelCode">TV5</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_a2z/default/index.mpd" data-key="f703e4c8ec9041eeb5028ab4248fa094:c22f2162e176eee6273a5d0b68d19530" data-type="IPTV">
-    <img src="https://static.wikia.nocookie.net/russel/images/8/85/A2Z_Channel_11_without_Channel_11_3D_Logo_2020.png/revision/latest?cb=20231101144828">
-    <div class="channelCode">A2Z</div>
-  </div>
-
-  <!-- Movies Channels -->
-  <div class="channelBtn" data-manifest="https://golden-television-network-gtn.ostamark484.workers.dev/" data-type="MOVIES">
-    <img src="https://i.imgur.com/urWAPgv.png">
-    <div class="channelCode">GOLDEN TV</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/54afaecb-9608-4827-a19a-e1a2d2f498d5/index.mpd" data-type="MOVIES">
-    <img src="https://i.imgur.com/fRETRXx.png">
-    <div class="channelCode">KAPAMILYA CHANNEL</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://gsattv.akamaized.net/live/media0/gma7/Widevine/gma7.mpd" data-type="MOVIES2">
-    <img src="https://i.imgur.com/nMSt2j0.png">
-    <div class="channelCode">GMA</div>
-  </div>
-  <div class="channelBtn" data-manifest="https://ia600802.us.archive.org/29/items/if-only-lea-salonga-lyrics-720-p-hd/If%20Only%20-%20Lea%20Salonga%20-%20Lyrics%28720P_HD%29.ia.mp4" data-type="MOVIES2">
-    <img src="https://i.imgur.com/fRETRXx.png">
-    <div class="channelCode">MOVIE SAMPLE</div>
-  </div>
-</div>
 </div>
 
 <div id="playerContainer">
@@ -279,112 +79,62 @@ const channelSelect = document.getElementById('channelSelect');
 const tabs = document.querySelectorAll('.menuBtn');
 let player;
 
-async function initPlayer(manifest, key){
+async function initPlayer(manifest,key){
+  // destroy previous Shaka Player if exists
   if(player){ player.destroy(); player=null; }
-  if(manifest.endsWith('.mp4')){
-    video.src = manifest;
-   } else {
-    player = new shaka.Player(video);
+  video.className = ''; video.src='';
 
-    player.configure({
-      streaming:{
-        lowLatencyMode: false,     // mas stable kaysa ultra‑low latency
-        rebufferingGoal: 2,        // iwas putol-putol
-        bufferingGoal: 20,         // mas mahabang buffer para tuloy‑tuloy
-        bufferBehind: 30,
-        retryParameters:{
-          maxAttempts: 6,
-          baseDelay: 1000,
-          backoffFactor: 2,
-          fuzzFactor: 0.5
-        }
-      },
-      abr:{
-        enabled: true,
-        switchInterval: 8          // hindi pabago‑bago ng quality
+  try{
+    if(manifest.endsWith('.mp4')){
+      video.src = manifest;
+      await video.play();
+    } else {
+      player = new shaka.Player(video);
+      if(key){
+        const [kid,kval]=key.split(':');
+        player.configure({drm:{clearKeys:{[kid]:kval}}});
       }
-    });
-
-    if(key){
-      const [kid,kval]=key.split(':');
-      player.configure({
-        drm:{ clearKeys:{[kid]:kval} }
+      await player.load(manifest);
+      await video.play();
+    }
+  }catch(e){
+    console.log("Shaka failed, trying Video.js fallback:", e);
+    if(manifest.includes('.m3u8')){
+      if(player){ player.destroy(); player=null; }
+      video.className = 'video-js vjs-default-skin';
+      const vjsPlayer = videojs(video,{
+        autoplay:true, controls:false, liveui:true, preload:'auto',
+        sources:[{src:manifest,type:'application/x-mpegURL'}]
       });
+      vjsPlayer.ready(()=>{ video.play().catch(()=>{}); });
     }
+  }
 
- try{
-  await player.load(manifest);
-}catch(e){
-  console.log("Shaka failed, trying video.js", e);
+  // Always show LIVE badge and BACK
+  liveBadge.style.opacity = 1;
+  backBtn.style.opacity = 1;
 
-  if(manifest.includes('.m3u8')){
-    if(player){
-      await player.destroy();
-      player = null;
-    }
-
-    video.classList.add('video-js','vjs-default-skin');
-
-    const vjs = videojs(video, {
-      autoplay:true,
-      controls:false,
-      liveui:true,
-      preload:'auto',
-      sources:[{
-        src: manifest,
-        type:'application/x-mpegURL'
-      }]
-    });
-
-    vjs.ready(function(){
-
-      // tanggalin loading spinner
-      if(vjs.loadingSpinner){
-        vjs.loadingSpinner.hide();
-      }
-
-      // show LIVE + BACK
-      liveBadge.style.opacity = 1;
-      backBtn.style.opacity   = 1;
-
-      // fullscreen din
-      if(document.fullscreenElement == null && playerContainer.requestFullscreen){
-        playerContainer.requestFullscreen().catch(()=>{});
-      }
-
-    });
+  // Fullscreen
+  if(!document.fullscreenElement){
+    playerContainer.requestFullscreen().catch(()=>{});
   }
 }
-try{
-  await player.load(manifest);
-}catch(e){
-  console.error(e);
-}
-  video.muted = false;
-  video.play().catch(()=>{});
-}
 
-function toggleLiveBack(){
-  liveBadge.style.opacity = liveBadge.style.opacity === '1' ? '0' : '1';
-  backBtn.style.opacity = backBtn.style.opacity === '1' ? '0' : '1';
-}
-
+// Go back to channel list
 function goBack(){
   if(document.fullscreenElement){ document.exitFullscreen().catch(()=>{}); }
   playerContainer.style.display='none';
   topBar.style.display='flex';
   channelSelect.style.display='grid';
   if(player){ player.destroy(); player=null; }
-  video.src = '';
-  liveBadge.style.opacity = 0;
-  backBtn.style.opacity = 0;
+  video.src='';
+  liveBadge.style.opacity=0;
+  backBtn.style.opacity=0;
 }
 
+// Event listeners
 backBtn.addEventListener('click', goBack);
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && playerContainer.style.display==='block'){ goBack(); }});
-
-// Show/hide LIVE and BACK on video click
-video.addEventListener('click', toggleLiveBack);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && playerContainer.style.display==='block'){ goBack(); } });
 
 // Channel click
 document.querySelectorAll('.channelBtn').forEach(btn=>{
@@ -395,16 +145,12 @@ document.querySelectorAll('.channelBtn').forEach(btn=>{
     const manifest = btn.dataset.manifest;
     const key = btn.dataset.key;
     await initPlayer(manifest,key);
-    if(document.fullscreenElement==null && playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
-    video.controls = false;
-    liveBadge.style.opacity = 1;
-    backBtn.style.opacity = 1;
   });
 });
 
 // Tabs filter
 tabs.forEach(tab=>{
-  tab.addEventListener('click',()=>{
+  tab.addEventListener('click', ()=>{
     tabs.forEach(x=>x.classList.remove('active'));
     tab.classList.add('active');
     const type = tab.id==='btnIptv'?'IPTV':(tab.id==='btnMovies'?'MOVIES':'MOVIES2');
@@ -415,30 +161,3 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
