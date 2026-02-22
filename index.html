@@ -1,4 +1,4 @@
-iptv landscape
+
 
 
 
@@ -334,7 +334,16 @@ async function initPlayer(manifest, key){
     });
   }
 }
+    try{
+      await player.load(manifest);
+    }catch(e){
+      console.error(e);
+    }
+  }
 
+  video.muted = false;
+  video.play().catch(()=>{});
+}
 
 function toggleLiveBack(){
   liveBadge.style.opacity = liveBadge.style.opacity === '1' ? '0' : '1';
@@ -387,6 +396,7 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
 
 
 
