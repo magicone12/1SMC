@@ -355,7 +355,11 @@ async function initPlayer(manifest, key){
     });
   }
 }
-
+try{
+  await player.load(manifest);
+}catch(e){
+  console.error(e);
+}
   video.muted = false;
   video.play().catch(()=>{});
 }
@@ -411,6 +415,7 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
 
 
 
