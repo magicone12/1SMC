@@ -1,4 +1,4 @@
-iptv landscape
+
 
 
 
@@ -277,11 +277,11 @@ const channelSelect = document.getElementById('channelSelect');
 const tabs = document.querySelectorAll('.menuBtn');
 let player;
 
- async function initPlayer(manifest, key){
+async function initPlayer(manifest, key){
   if(player){ player.destroy(); player=null; }
   if(manifest.endsWith('.mp4')){
     video.src = manifest;
-  } else {
+ } else {
     player = new shaka.Player(video);
 
     player.configure({
@@ -310,15 +310,12 @@ let player;
       });
     }
 
- try{
+    try{
       await player.load(manifest);
     }catch(e){
       console.error(e);
     }
   }
-    
-
-
 
 function toggleLiveBack(){
   liveBadge.style.opacity = liveBadge.style.opacity === '1' ? '0' : '1';
@@ -371,12 +368,6 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
-
-
-
-
-
-
 
 
 
