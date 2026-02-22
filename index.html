@@ -316,9 +316,7 @@ let player;
       console.error(e);
     }
   }
-  video.muted = false;
-  video.play().catch(()=>{});
-}
+
 
 function toggleLiveBack(){
   liveBadge.style.opacity = liveBadge.style.opacity === '1' ? '0' : '1';
@@ -371,6 +369,7 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
 
 
 
