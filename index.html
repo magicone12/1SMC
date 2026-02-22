@@ -6,7 +6,7 @@
 <title>1SANMATEOCABLE</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.compiled.js"></script>
 <style>
-html, body { margin:0; height:100%; background:#000; display:flex; flex-direction:column; }
+html, body { margin:0; height:100%; background:#000; display:flex; flex-direction:column; font-family:sans-serif; }
 #topBar{ position:fixed; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#0f0f0f; border-bottom:1px solid #222; z-index:1000; transition: opacity 0.3s; }
 #appName{ color:#fff; font-size:18px; font-weight:700; letter-spacing:1px; }
 #menuBtns{ display:flex; gap:10px; }
@@ -23,15 +23,12 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
 #liveBadge { position:absolute; top:14px; left:14px; background:rgba(208,0,0,0.5); color:#fff; font-size:12px; padding:6px 10px; border-radius:4px; font-weight:bold; letter-spacing:.5px; display:flex; align-items:center; gap:6px; opacity:0; transition: opacity 0.3s; }
 #dot { width:8px; height:8px; background:#fff; border-radius:50%; animation:pulse 1.2s infinite; }
 #backBtn { position:absolute; top:14px; right:14px; background:rgba(34,34,34,0.5); color:#fff; font-size:14px; padding:6px 12px; border-radius:6px; cursor:pointer; opacity:0; transition: opacity 0.3s; z-index:1002; }
+#loginOverlay { position:fixed; inset:0; background:rgba(0,0,0,0.85); display:none; flex-direction:column; justify-content:center; align-items:center; z-index:2000; color:#fff; }
+#loginBox { background:#111; padding:20px; border-radius:12px; display:flex; flex-direction:column; gap:10px; }
+#loginBox input { padding:8px; border-radius:6px; border:none; width:200px; }
+#loginBox button { padding:8px; border:none; border-radius:6px; cursor:pointer; background:#d00000; color:#fff; }
+#loginError { color:#ff5555; font-size:12px; }
 @keyframes pulse { 0%{opacity:1} 50%{opacity:.3} 100%{opacity:1} }
-
-/* LOGIN PANEL */
-#xxxLogin { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:2000; }
-#xxxLogin div { background:#111; padding:30px; border-radius:12px; width:280px; text-align:center; box-shadow:0 0 15px rgba(255,0,0,0.5); }
-#xxxLogin h3 { color:#fff; margin-bottom:20px; }
-#xxxLogin input { width:100%; padding:8px; border-radius:6px; border:none; margin-bottom:10px; font-size:14px; }
-#xxxLogin button { width:100%; padding:10px; border:none; border-radius:6px; background:#d00000; color:#fff; font-size:14px; cursor:pointer; }
-#xxxError { color:#f00; margin-top:10px; display:none; font-size:13px; }
 </style>
 </head>
 <body>
@@ -47,71 +44,42 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
 
 <div id="mainWrap">
   <div id="channelSelect">
-
-    <!-- Sample IPTV Channels -->
+    <!-- IPTV Channels -->
     <div class="channelBtn" data-manifest="https://243529.global.ssl.fastly.net/6842a712b68c56f675d988f1/live_f5ac22b0566511f0805217b960326aaa/tracks-v1/index.fmp4.m3u8" data-type="IPTV">
-      <img src="https://i.imgur.com/Kyf5KYg.png">
-      <div class="channelCode">INC TV</div>
+      <img src="https://i.imgur.com/Kyf5KYg.png"><div class="channelCode">INC TV</div>
     </div>
     <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-01-prod.akamaized.net/bpk-tv/cg_ptv4_sd/default/index.mpd" data-key="71a130a851b9484bb47141c8966fb4a3:ad1f003b4f0b31b75ea4593844435600" data-type="IPTV">
       <img src="https://static.wikia.nocookie.net/russel/images/d/dc/PTV_4_Para_Sa_Bayan_Alternative_Logo_June_2017.png/revision/latest?cb=20171019065428">
       <div class="channelCode">PTV4</div>
     </div>
     <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/onenews_hd1/default/index.mpd" data-key="d39eb201ae494a0b98583df4d110e8dd:6797066880d344422abd3f5eda41f45f" data-type="IPTV">
-      <img src="https://i.imgur.com/bpRiu54.png">
-      <div class="channelCode">ONE NEWS</div>
+      <img src="https://i.imgur.com/bpRiu54.png"><div class="channelCode">ONE NEWS</div>
     </div>
     <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cnn_rptv_prod_hd/default/index.mpd" data-key="1917f4caf2364e6d9b1507326a85ead6:a1340a251a5aa63a9b0ea5d9d7f67595" data-type="IPTV">
-      <img src="https://static.wikia.nocookie.net/russel/images/f/fb/RPTV_Alternative_Logo_2024.png/revision/latest?cb=20240305140432">
-      <div class="channelCode">RPTV</div>
+      <img src="https://static.wikia.nocookie.net/russel/images/f/fb/RPTV_Alternative_Logo_2024.png/revision/latest?cb=20240305140432"><div class="channelCode">RPTV</div>
     </div>
-    <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/tv5_hd/default1/index.mpd" data-key="2615129ef2c846a9bbd43a641c7303ef:07c7f996b1734ea288641a68e1cfdc4d" data-type="IPTV">
-      <img src="https://static.wikia.nocookie.net/russel/images/7/7a/TV5_HD_Logo_2024.png/revision/latest/scale-to-width-down/290?cb=20240202141126">
-      <div class="channelCode">TV5</div>
+    <!-- MOVIES Channels -->
+    <div class="channelBtn" data-manifest="https://ia600802.us.archive.org/29/items/if-only-lea-salonga-lyrics-720-p-hd/If%20Only%20-%20Lea%20Salonga%20-%20Lyrics%28720P_HD%29.ia.mp4" data-type="MOVIES">
+      <img src="https://i.imgur.com/fRETRXx.png"><div class="channelCode">LEA SALONGA</div>
     </div>
-    <div class="channelBtn" data-manifest="https://qp-pldt-live-bpk-02-prod.akamaized.net/bpk-tv/cg_a2z/default/index.mpd" data-key="f703e4c8ec9041eeb5028ab4248fa094:c22f2162e176eee6273a5d0b68d19530" data-type="IPTV">
-      <img src="https://static.wikia.nocookie.net/russel/images/8/85/A2Z_Channel_11_without_Channel_11_3D_Logo_2020.png/revision/latest?cb=20231101144828">
-      <div class="channelCode">A2Z</div>
+    <!-- XXX / MOVIES2 Channels -->
+    <div class="channelBtn" data-manifest="https://your-xxx-video-url.mp4" data-type="MOVIES2">
+      <img src="https://i.imgur.com/fRETRXx.png"><div class="channelCode">XXX SAMPLE</div>
     </div>
-
-    <!-- Sample Movies Channels -->
-    <div class="channelBtn" data-manifest="https://golden-television-network-gtn.ostamark484.workers.dev/" data-type="MOVIES">
-      <img src="https://i.imgur.com/urWAPgv.png">
-      <div class="channelCode">GOLDEN TV</div>
-    </div>
-    <div class="channelBtn" data-manifest="https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-kapcha-dash-abscbnono/54afaecb-9608-4827-a19a-e1a2d2f498d5/index.mpd" data-type="MOVIES">
-      <img src="https://i.imgur.com/fRETRXx.png">
-      <div class="channelCode">KAPAMILYA</div>
-    </div>
-
-    <!-- MOVIES2 / XXX channels (protected) -->
-    <div class="channelBtn" data-manifest="https://gsattv.akamaized.net/live/media0/gma7/Widevine/gma7.mpd" data-type="MOVIES2">
-      <img src="https://i.imgur.com/nMSt2j0.png">
-      <div class="channelCode">GMA</div>
-    </div>
-    <div class="channelBtn" data-manifest="https://ia600802.us.archive.org/29/items/if-only-lea-salonga-lyrics-720-p-hd/If%20Only%20-%20Lea%20Salonga%20-%20Lyrics%28720P_HD%29.ia.mp4" data-type="MOVIES2">
-      <img src="https://i.imgur.com/fRETRXx.png">
-      <div class="channelCode">MOVIE SAMPLE</div>
-    </div>
-
   </div>
 </div>
 
-<!-- PLAYER CONTAINER -->
 <div id="playerContainer">
   <div id="liveBadge"><span id="dot"></span>LIVE</div>
   <button id="backBtn">BACK</button>
   <video id="video" autoplay playsinline></video>
 </div>
 
-<!-- XXX / MOVIES2 LOGIN PANEL -->
-<div id="xxxLogin">
-  <div>
-    <h3>Enter Password</h3>
-    <input type="text" id="xxxUser" placeholder="Username">
-    <input type="password" id="xxxPass" placeholder="Password">
-    <button id="xxxSubmit">LOGIN</button>
-    <div id="xxxError">Incorrect username or password</div>
+<div id="loginOverlay">
+  <div id="loginBox">
+    <input type="password" id="loginPass" placeholder="Enter password">
+    <button id="loginBtn">LOGIN</button>
+    <div id="loginError"></div>
   </div>
 </div>
 
@@ -123,107 +91,98 @@ const liveBadge = document.getElementById('liveBadge');
 const topBar = document.getElementById('topBar');
 const channelSelect = document.getElementById('channelSelect');
 const tabs = document.querySelectorAll('.menuBtn');
+const loginOverlay = document.getElementById('loginOverlay');
+const loginPass = document.getElementById('loginPass');
+const loginBtn = document.getElementById('loginBtn');
+const loginError = document.getElementById('loginError');
 let player;
+let pendingChannel = null;
 
-// INIT PLAYER
+// Video Player Init
 async function initPlayer(manifest, key){
   if(player){ player.destroy(); player=null; }
-  if(manifest.endsWith('.mp4')){
-    video.src = manifest;
-  } else {
+  if(manifest.endsWith('.mp4')){ video.src = manifest; } 
+  else {
     player = new shaka.Player(video);
     player.configure({
       streaming:{ lowLatencyMode:false, rebufferingGoal:2, bufferingGoal:30, jumpLargeGaps:true, stallEnabled:true, retryParameters:{ maxAttempts:6, baseDelay:500, backoffFactor:1.5 } }
     });
     if(key){ const [kid,kval]=key.split(':'); player.configure({ drm:{clearKeys:{[kid]:kval}} }); }
-    try{ await player.load(manifest); }catch(e){console.error(e);}
+    try{ await player.load(manifest); }catch(e){ console.error(e);}
   }
   video.muted = false;
   video.play().catch(()=>{});
 }
 
-// LIVE/BACK TOGGLE
-function toggleLiveBack(){
-  liveBadge.style.opacity = liveBadge.style.opacity === '1' ? '0' : '1';
-  backBtn.style.opacity = backBtn.style.opacity === '1' ? '0' : '1';
-}
-
-// GO BACK FUNCTION
+// Back button
 function goBack(){
   if(document.fullscreenElement){ document.exitFullscreen().catch(()=>{}); }
   playerContainer.style.display='none';
   topBar.style.display='flex';
   channelSelect.style.display='grid';
   if(player){ player.destroy(); player=null; }
-  video.src = '';
-  liveBadge.style.opacity = 0;
-  backBtn.style.opacity = 0;
+  video.src='';
+  liveBadge.style.opacity=0;
+  backBtn.style.opacity=0;
 }
 
-// EVENT LISTENERS
+// Toggle live badge
+function toggleLiveBack(){ liveBadge.style.opacity = liveBadge.style.opacity==='1'?'0':'1'; backBtn.style.opacity = backBtn.style.opacity==='1'?'0':'1'; }
 backBtn.addEventListener('click', goBack);
-document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && playerContainer.style.display==='block'){ goBack(); }});
 video.addEventListener('click', toggleLiveBack);
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && playerContainer.style.display==='block'){ goBack(); }});
 
-// CHANNEL CLICK
+// Channel click
 document.querySelectorAll('.channelBtn').forEach(btn=>{
   btn.addEventListener('click', async ()=>{
     const type = btn.dataset.type;
-    if(type==='MOVIES2'){ // protected
-      xxxLogin.style.display = 'flex';
+    pendingChannel = btn;
+    if(type==='MOVIES2'){
+      loginOverlay.style.display='flex';
+      loginPass.value='';
+      loginError.textContent='';
       return;
     }
     channelSelect.style.display='none';
     topBar.style.display='none';
     playerContainer.style.display='block';
-    const manifest = btn.dataset.manifest;
-    const key = btn.dataset.key;
-    await initPlayer(manifest,key);
+    await initPlayer(btn.dataset.manifest, btn.dataset.key);
     if(document.fullscreenElement==null && playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
-    video.controls = false;
-    liveBadge.style.opacity = 1;
-    backBtn.style.opacity = 1;
+    video.controls=false;
+    liveBadge.style.opacity=1;
+    backBtn.style.opacity=1;
   });
 });
 
-// TABS FILTER
+// Login button
+loginBtn.addEventListener('click', async ()=>{
+  const pass = loginPass.value;
+  if(pass==='1234'){ // simple password
+    loginOverlay.style.display='none';
+    if(pendingChannel){
+      channelSelect.style.display='none';
+      topBar.style.display='none';
+      playerContainer.style.display='block';
+      await initPlayer(pendingChannel.dataset.manifest, pendingChannel.dataset.key);
+      if(document.fullscreenElement==null && playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
+      video.controls=false;
+      liveBadge.style.opacity=1;
+      backBtn.style.opacity=1;
+      pendingChannel=null;
+    }
+  } else { loginError.textContent='Wrong password!'; }
+});
+
+// Tabs filter
 tabs.forEach(tab=>{
-  tab.addEventListener('click',()=>{
+  tab.addEventListener('click', ()=>{
     tabs.forEach(x=>x.classList.remove('active'));
     tab.classList.add('active');
     const type = tab.id==='btnIptv'?'IPTV':(tab.id==='btnMovies'?'MOVIES':'MOVIES2');
     document.querySelectorAll('.channelBtn').forEach(ch=>{
-      if(type==='IPTV'){
-        ch.style.display = ch.dataset.type==='IPTV'?'flex':'none';
-      }else{
-        ch.style.display = (ch.dataset.type==='IPTV' || ch.dataset.type===type)?'flex':'none';
-      }
+      ch.style.display = (type==='IPTV')? (ch.dataset.type==='IPTV'?'flex':'none') : (ch.dataset.type===type?'flex':'none');
     });
   });
-});
-
-// XXX LOGIN PANEL
-const xxxLoginDiv = document.getElementById('xxxLogin');
-const xxxSubmit = document.getElementById('xxxSubmit');
-const xxxError = document.getElementById('xxxError');
-
-xxxSubmit.addEventListener('click', ()=>{
-  const user = document.getElementById('xxxUser').value.trim();
-  const pass = document.getElementById('xxxPass').value.trim();
-  if(user==='admin' && pass==='1234'){ // credentials
-    xxxLoginDiv.style.display='none';
-    xxxError.style.display='none';
-    document.querySelectorAll('.channelBtn').forEach(ch=>{
-      if(ch.dataset.type==='MOVIES2'){ ch.style.display='flex'; }
-    });
-  } else {
-    xxxError.style.display='block';
-  }
-});
-
-// ENTER KEY SUBMIT
-document.getElementById('xxxPass').addEventListener('keyup', (e)=>{
-  if(e.key==='Enter'){ xxxSubmit.click(); }
 });
 </script>
 
