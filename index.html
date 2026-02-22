@@ -319,28 +319,7 @@ let player;
     }
   }
     
-  try{
-  await player.load(manifest);
-}catch(e){
-  console.log("Shaka failed, trying video.js", e);
 
-  // fallback to video.js for HLS
-  if(manifest.includes('.m3u8')){
-    if(player){ await player.destroy(); player=null; }
-
-    video.classList.add('video-js','vjs-default-skin');
-
-    const vjs = videojs(video, {
-      autoplay:true,
-      controls:false,
-      liveui:true,
-      sources:[{
-        src: manifest,
-        type:'application/x-mpegURL'
-      }]
-    });
-  }
-}
 
 
 function toggleLiveBack(){
@@ -394,6 +373,7 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
 
 
 
