@@ -1,4 +1,4 @@
-
+iptv landscape
 
 
 
@@ -281,41 +281,14 @@ async function initPlayer(manifest, key){
   if(player){ player.destroy(); player=null; }
   if(manifest.endsWith('.mp4')){
     video.src = manifest;
- } else {
+  } else {
     player = new shaka.Player(video);
-
-    player.configure({
-      streaming:{
-        lowLatencyMode: false,     // mas stable kaysa ultra‑low latency
-        rebufferingGoal: 2,        // iwas putol-putol
-        bufferingGoal: 20,         // mas mahabang buffer para tuloy‑tuloy
-        bufferBehind: 30,
-        retryParameters:{
-          maxAttempts: 6,
-          baseDelay: 1000,
-          backoffFactor: 2,
-          fuzzFactor: 0.5
-        }
-      },
-      abr:{
-        enabled: true,
-        switchInterval: 8          // hindi pabago‑bago ng quality
-      }
-    });
-
-    if(key){
-      const [kid,kval]=key.split(':');
-      player.configure({
-        drm:{ clearKeys:{[kid]:kval} }
-      });
-    }
-
-    try{
-      await player.load(manifest);
-    }catch(e){
-      console.error(e);
-    }
+    if(key){ const [kid,kval]=key.split(':'); player.configure({ drm:{clearKeys:{[kid]:kval}}, streaming:{lowLatencyMode:true, rebufferingGoal:0.5, bufferingGoal:6} });}
+    try{ await player.load(manifest); }catch(e){console.error(e);}
   }
+  video.muted = false;
+  video.play().catch(()=>{});
+}
 
 function toggleLiveBack(){
   liveBadge.style.opacity = liveBadge.style.opacity === '1' ? '0' : '1';
