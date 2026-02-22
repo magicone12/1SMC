@@ -1,3 +1,8 @@
+iptv landscape
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,35 +10,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>1SANMATEOCABLE</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.compiled.js"></script>
-<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
-<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 <style>
-html, body {
-  margin:0; height:100%; background:#000; display:flex; flex-direction:column;
-}
-#topBar{
-  position:fixed; top:0; left:0; width:100%; display:flex; align-items:center;
-  justify-content:space-between; padding:12px 16px; background:#0f0f0f;
-  border-bottom:1px solid #222; z-index:1000;
-}
-#appName{ color:#fff; font-size:18px; font-weight:700; }
+html, body { margin:0; height:100%; background:#000; display:flex; flex-direction:column; }
+#topBar{ position:fixed; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#0f0f0f; border-bottom:1px solid #222; z-index:1000; transition: opacity 0.3s; }
+#appName{ color:#fff; font-size:18px; font-weight:700; letter-spacing:1px; }
 #menuBtns{ display:flex; gap:14px; }
 .menuBtn{ background:#1f1f1f; color:#fff; border:none; padding:8px 50px; border-radius:8px; cursor:pointer; font-size:13px; }
 .menuBtn.active{ background:#d00000; }
 #mainWrap{ flex:1; margin-top:80px; display:flex; justify-content:center; align-items:flex-start; padding:20px; }
-#channelSelect { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; justify-items:center; align-items:center; background:#111; padding:20px; border-radius:12px; }
+#channelSelect { display:grid; grid-template-columns:repeat(4, 1fr); gap:20px; justify-items:center; align-items:center; background:#111; padding:20px; border-radius:12px; transition: opacity 0.3s; }
 .channelBtn { width:140px; height:140px; border-radius:12px; background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 0 10px rgba(255,255,255,.15); transition: transform 0.2s; }
 .channelBtn:hover { transform: scale(1.05); }
 .channelBtn img { max-width:85%; max-height:85%; border-radius:8px; }
 .channelCode { margin-top:6px; color:#fff; font-size:12px; background:rgba(0,0,0,0.4); padding:2px 6px; border-radius:4px; text-align:center; }
-#playerContainer { position:fixed; inset:0; display:none; z-index:1001; background:#000; }
+#playerContainer { position:fixed; inset:0; display:none; z-index:1001; }
 video { width:100%; height:100%; object-fit:contain; background:#000; cursor:pointer; }
-#liveBadge { position:absolute; top:14px; left:14px; background:rgba(208,0,0,0.5); color:#fff; font-size:12px; padding:6px 10px; border-radius:4px; font-weight:bold; display:flex; align-items:center; gap:6px; opacity:1; }
+#liveBadge { position:absolute; top:14px; left:14px; background:rgba(208,0,0,0.5); color:#fff; font-size:12px; padding:6px 10px; border-radius:4px; font-weight:bold; letter-spacing:.5px; display:flex; align-items:center; gap:6px; opacity:0; transition: opacity 0.3s; }
 #dot { width:8px; height:8px; background:#fff; border-radius:50%; animation:pulse 1.2s infinite; }
-#backBtn { position:absolute; top:14px; right:14px; background:rgba(34,34,34,0.5); color:#fff; font-size:14px; padding:6px 12px; border-radius:6px; cursor:pointer; opacity:1; z-index:1002; }
+#backBtn { position:absolute; top:14px; right:14px; background:rgba(34,34,34,0.5); color:#fff; font-size:14px; padding:6px 12px; border-radius:6px; cursor:pointer; opacity:0; transition: opacity 0.3s; z-index:1002; }
 @keyframes pulse { 0%{opacity:1} 50%{opacity:.3} 100%{opacity:1} }
-/* Hide video.js spinner */
-.vjs-loading-spinner { display:none !important; }
 </style>
 </head>
 <body>
@@ -48,18 +43,8 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
 </div>
 
 <div id="mainWrap">
-  <div id="channelSelect">
-    <!-- Example Channels -->
-    <div class="channelBtn" data-manifest="https://gsattv.akamaized.net/live/media0/gma7/Widevine/gma7.mpd" data-type="IPTV">
-      <img src="https://i.imgur.com/nMSt2j0.png"><div class="channelCode">GMA</div>
-    </div>
-    <div class="channelBtn" data-manifest="https://tiny-flower-83bb.ostamark484.workers.dev/stream.m3u8" data-type="IPTV">
-      <img src="https://i.imgur.com/PALAEXx.jpeg"><div class="channelCode">I HEART MOVIES</div>
-    </div>
-    <div class="channelBtn" data-manifest="https://ia600802.us.archive.org/29/items/if-only-lea-salonga-lyrics-720-p-hd/If%20Only%20-%20Lea%20Salonga%20-%20Lyrics%28720P_HD%29.ia.mp4" data-type="MOVIES">
-      <img src="https://i.imgur.com/fRETRXx.png"><div class="channelCode">LEA SALONGA MP4</div>
-    </div>
-    <!-- Channels including MP4 video -->
+<div id="channelSelect">
+  <!-- Channels including MP4 video -->
    <div class="channelBtn" data-manifest="https://gsattv.akamaized.net/live/media0/gma7/Widevine/gma7.mpd" data-type="IPTV">
     <img src="https://i.imgur.com/nMSt2j0.png">
     <div class="channelCode">GMA</div>
@@ -272,8 +257,8 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
   <div class="channelBtn" data-manifest="https://ia600802.us.archive.org/29/items/if-only-lea-salonga-lyrics-720-p-hd/If%20Only%20-%20Lea%20Salonga%20-%20Lyrics%28720P_HD%29.ia.mp4" data-type="MOVIES2">
     <img src="https://i.imgur.com/fRETRXx.png">
     <div class="channelCode">MOVIE SAMPLE</div>
-  </div> <!-- Add the rest of your channels in the same format -->
   </div>
+</div>
 </div>
 
 <div id="playerContainer">
@@ -292,62 +277,76 @@ const channelSelect = document.getElementById('channelSelect');
 const tabs = document.querySelectorAll('.menuBtn');
 let player;
 
-async function initPlayer(manifest,key){
-  // destroy previous Shaka Player if exists
+async function initPlayer(manifest, key){
   if(player){ player.destroy(); player=null; }
-  video.className = ''; video.src='';
+  if(manifest.endsWith('.mp4')){
+    video.src = manifest;
+ 
 
-  try{
-    if(manifest.endsWith('.mp4')){
-      video.src = manifest;
-      await video.play();
-    } else {
-      player = new shaka.Player(video);
-      if(key){
-        const [kid,kval]=key.split(':');
-        player.configure({drm:{clearKeys:{[kid]:kval}}});
+
+
+
+
+  } else {
+    player = new shaka.Player(video);
+
+    player.configure({
+      streaming:{
+        lowLatencyMode: false,     // mas stable kaysa ultra‑low latency
+        rebufferingGoal: 2,        // iwas putol-putol
+        bufferingGoal: 20,         // mas mahabang buffer para tuloy‑tuloy
+        bufferBehind: 30,
+        retryParameters:{
+          maxAttempts: 6,
+          baseDelay: 1000,
+          backoffFactor: 2,
+          fuzzFactor: 0.5
+        }
+      },
+      abr:{
+        enabled: true,
+        switchInterval: 8          // hindi pabago‑bago ng quality
       }
-      await player.load(manifest);
-      await video.play();
-    }
-  }catch(e){
-    console.log("Shaka failed, trying Video.js fallback:", e);
-    if(manifest.includes('.m3u8')){
-      if(player){ player.destroy(); player=null; }
-      video.className = 'video-js vjs-default-skin';
-      const vjsPlayer = videojs(video,{
-        autoplay:true, controls:false, liveui:true, preload:'auto',
-        sources:[{src:manifest,type:'application/x-mpegURL'}]
+    });
+
+    if(key){
+      const [kid,kval]=key.split(':');
+      player.configure({
+        drm:{ clearKeys:{[kid]:kval} }
       });
-      vjsPlayer.ready(()=>{ video.play().catch(()=>{}); });
+    }
+
+    try{
+      await player.load(manifest);
+    }catch(e){
+      console.error(e);
     }
   }
-
-  // Always show LIVE badge and BACK
-  liveBadge.style.opacity = 1;
-  backBtn.style.opacity = 1;
-
-  // Fullscreen
-  if(!document.fullscreenElement){
-    playerContainer.requestFullscreen().catch(()=>{});
-  }
+  video.muted = false;
+  video.play().catch(()=>{});
 }
 
-// Go back to channel list
+function toggleLiveBack(){
+  liveBadge.style.opacity = liveBadge.style.opacity === '1' ? '0' : '1';
+  backBtn.style.opacity = backBtn.style.opacity === '1' ? '0' : '1';
+}
+
 function goBack(){
   if(document.fullscreenElement){ document.exitFullscreen().catch(()=>{}); }
   playerContainer.style.display='none';
   topBar.style.display='flex';
   channelSelect.style.display='grid';
   if(player){ player.destroy(); player=null; }
-  video.src='';
-  liveBadge.style.opacity=0;
-  backBtn.style.opacity=0;
+  video.src = '';
+  liveBadge.style.opacity = 0;
+  backBtn.style.opacity = 0;
 }
 
-// Event listeners
 backBtn.addEventListener('click', goBack);
-document.addEventListener('keydown', e=>{ if(e.key==='Escape' && playerContainer.style.display==='block'){ goBack(); } });
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && playerContainer.style.display==='block'){ goBack(); }});
+
+// Show/hide LIVE and BACK on video click
+video.addEventListener('click', toggleLiveBack);
 
 // Channel click
 document.querySelectorAll('.channelBtn').forEach(btn=>{
@@ -358,12 +357,16 @@ document.querySelectorAll('.channelBtn').forEach(btn=>{
     const manifest = btn.dataset.manifest;
     const key = btn.dataset.key;
     await initPlayer(manifest,key);
+    if(document.fullscreenElement==null && playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
+    video.controls = false;
+    liveBadge.style.opacity = 1;
+    backBtn.style.opacity = 1;
   });
 });
 
 // Tabs filter
 tabs.forEach(tab=>{
-  tab.addEventListener('click', ()=>{
+  tab.addEventListener('click',()=>{
     tabs.forEach(x=>x.classList.remove('active'));
     tab.classList.add('active');
     const type = tab.id==='btnIptv'?'IPTV':(tab.id==='btnMovies'?'MOVIES':'MOVIES2');
@@ -374,4 +377,22 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
