@@ -10,6 +10,8 @@ iptv landscape
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>1SANMATEOCABLE</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.7.11/shaka-player.compiled.js"></script>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 <style>
 html, body { margin:0; height:100%; background:#000; display:flex; flex-direction:column; }
 #topBar{ position:fixed; top:0; left:0; width:100%; display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#0f0f0f; border-bottom:1px solid #222; z-index:1000; transition: opacity 0.3s; }
@@ -310,12 +312,28 @@ async function initPlayer(manifest, key){
       });
     }
 
-       try{
-      await player.load(manifest);
-    }catch(e){
-      console.error(e);
-    }
+      try{
+  await player.load(manifest);
+}catch(e){
+  console.log("Shaka failed, trying video.js", e);
+
+  // fallback to video.js for HLS
+  if(manifest.includes('.m3u8')){
+    if(player){ await player.destroy(); player=null; }
+
+    video.classList.add('video-js','vjs-default-skin');
+
+    const vjs = videojs(video, {
+      autoplay:true,
+      controls:false,
+      liveui:true,
+      sources:[{
+        src: manifest,
+        type:'application/x-mpegURL'
+      }]
+    });
   }
+}
 
   video.muted = false;
   video.play().catch(()=>{});
@@ -371,6 +389,7 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
 
 
 
