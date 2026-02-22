@@ -277,6 +277,10 @@ const channelSelect = document.getElementById('channelSelect');
 const tabs = document.querySelectorAll('.menuBtn');
 let player;
 
+ async function initPlayer(manifest, key){
+  if(player){ player.destroy(); player=null; }
+  if(manifest.endsWith('.mp4')){
+    video.src = manifest;
   } else {
     player = new shaka.Player(video);
 
@@ -311,14 +315,6 @@ let player;
     }catch(e){
       console.error(e);
     }
-  }
-  if(player){ player.destroy(); player=null; }
-  if(manifest.endsWith('.mp4')){
-    video.src = manifest;
-  } else {
-    player = new shaka.Player(video);
-    if(key){ const [kid,kval]=key.split(':'); player.configure({ drm:{clearKeys:{[kid]:kval}}, streaming:{lowLatencyMode:true, rebufferingGoal:0.5, bufferingGoal:6} });}
-    try{ await player.load(manifest); }catch(e){console.error(e);}
   }
   video.muted = false;
   video.play().catch(()=>{});
@@ -375,6 +371,7 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
 
 
 
