@@ -210,7 +210,6 @@ bindChannels();
 // Tabs filter (with LOGIN for MOVIES2 / XXX)
 const XXX_USER = "admin";
 const XXX_PASS = "1234";
-
 let xxxUnlocked = false;
 
 tabs.forEach(tab=>{
@@ -230,25 +229,19 @@ tabs.forEach(tab=>{
     tabs.forEach(x=>x.classList.remove('active'));
     tab.classList.add('active');
 
-    const type = tab.id==='btnIptv'?'IPTV':(tab.id==='btnMovies'?'MOVIES':'MOVIES2');
+    const type = tab.id==='btnIptv' ? 'IPTV' : (tab.id==='btnMovies' ? 'MOVIES' : 'MOVIES2');
 
     document.querySelectorAll('.channelBtn').forEach(ch=>{
       if(type==='IPTV'){
-        ch.style.display = ch.dataset.type==='IPTV'?'flex':'none';
+        ch.style.display = ch.dataset.type==='IPTV' ? 'flex' : 'none';
       }else{
         // MOVIES and MOVIES2 show same channels as IPTV (plus their own if any)
-        ch.style.display = (ch.dataset.type==='IPTV' || ch.dataset.type===type)?'flex':'none';
+        ch.style.display = (ch.dataset.type==='IPTV' || ch.dataset.type===type) ? 'flex' : 'none';
       }
     });
+
   });
 });
-}
-
-tabs.forEach(tab=>{
-  tab.addEventListener('click',()=> openTab(tab));
-});
-
-openTab(document.getElementById('btnIptv'));
 </script>
 
 </body>
