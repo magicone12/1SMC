@@ -335,9 +335,7 @@ async function initPlayer(manifest, key){
   }
 }
 
-  video.muted = false;
-  video.play().catch(()=>{});
-}
+
 function toggleLiveBack(){
   liveBadge.style.opacity = liveBadge.style.opacity === '1' ? '0' : '1';
   backBtn.style.opacity = backBtn.style.opacity === '1' ? '0' : '1';
@@ -389,6 +387,7 @@ tabs.forEach(tab=>{
 
 </body>
 </html>
+
 
 
 
