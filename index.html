@@ -349,7 +349,18 @@ function goBack(){
 }
 
 // Toggle live badge
-function toggleLiveBack(){ liveBadge.style.opacity = liveBadge.style.opacity==='1'?'0':'1'; backBtn.style.opacity = backBtn.style.opacity==='1'?'0':'1'; }
+function toggleLiveBack(){
+
+  const show = liveBadge.style.opacity !== '1';
+
+  liveBadge.style.opacity = show ? 1 : 0;
+  backBtn.style.opacity  = show ? 1 : 0;
+
+  const stretchBtn = document.getElementById('stretchBtn');
+  if(stretchBtn){
+    stretchBtn.style.opacity = show ? 1 : 0;
+  }
+}
 backBtn.addEventListener('click', goBack);
 video.addEventListener('click', toggleLiveBack);
 document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && playerContainer.style.display==='block'){ goBack(); }});
@@ -418,7 +429,7 @@ tabs.forEach(tab=>{
 
 
 <script>
-/* ==== SMART AUTO STRETCH (ALL SCREENS / ALL DEVICES) ==== */
+/* ==== SMART AUTO STRETCH + SAME TOGGLE WITH BACK/LIVE ==== */
 (function(){
 
   const video = document.getElementById('video');
@@ -427,24 +438,29 @@ tabs.forEach(tab=>{
   let enabled = false;
 
   const btn = document.createElement('button');
+  btn.id = 'stretchBtn';
   btn.textContent = 'STRETCH';
+
   btn.style.position = 'absolute';
-  btn.style.bottom = '20px';
-  btn.style.right = '20px';
-  btn.style.zIndex = '2000';
-  btn.style.padding = '8px 14px';
+  btn.style.top = '14px';
+  btn.style.right = '90px';   // dikit sa BACK
+  btn.style.zIndex = '1002';
+  btn.style.padding = '6px 12px';
   btn.style.borderRadius = '6px';
   btn.style.border = 'none';
   btn.style.cursor = 'pointer';
-  btn.style.background = 'rgba(0,0,0,0.6)';
+  btn.style.background = 'rgba(34,34,34,0.5)';
   btn.style.color = '#fff';
-  btn.style.fontSize = '13px';
+  btn.style.fontSize = '14px';
+  btn.style.opacity = 0;
+  btn.style.transition = 'opacity 0.3s';
 
   playerContainer.appendChild(btn);
 
   function applyStretch(){
 
     if(!enabled) return;
+    if(!video.videoWidth || !video.videoHeight) return;
 
     const vw = playerContainer.clientWidth;
     const vh = playerContainer.clientHeight;
@@ -452,10 +468,8 @@ tabs.forEach(tab=>{
     const vr = video.videoWidth / video.videoHeight;
     const cr = vw / vh;
 
-    // fit muna (katulad ng normal)
     video.style.objectFit = 'contain';
 
-    // kung mas makitid ang video kaysa sa screen
     if (vr < cr) {
       const scaleX = cr / vr;
       video.style.transform = 'scaleX(' + scaleX + ')';
@@ -464,7 +478,9 @@ tabs.forEach(tab=>{
     }
   }
 
-  btn.onclick = () => {
+  btn.onclick = (e) => {
+    e.stopPropagation();
+
     enabled = !enabled;
 
     if(enabled){
@@ -477,10 +493,7 @@ tabs.forEach(tab=>{
     }
   };
 
-  // kapag ready na ang video
   video.addEventListener('loadedmetadata', applyStretch);
-
-  // kapag nag rotate / resize (phone, tv, pc, android tv, tv box)
   window.addEventListener('resize', applyStretch);
 
 })();
@@ -489,6 +502,7 @@ tabs.forEach(tab=>{
   
 </body>
 </html>
+
 
 
 
