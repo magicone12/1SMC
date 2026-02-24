@@ -389,6 +389,7 @@ document.querySelectorAll('.channelBtn').forEach(btn=>{
     topBar.style.display='none';
     playerContainer.style.display='block';
     await initPlayer(btn.dataset.manifest, btn.dataset.key);
+    video.poster = pendingChannel?.dataset.poster || '';
     if(document.fullscreenElement==null && playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
     video.controls=false;
     liveBadge.style.opacity=1;
@@ -406,6 +407,7 @@ loginBtn.addEventListener('click', async ()=>{
       topBar.style.display='none';
       playerContainer.style.display='block';
       await initPlayer(pendingChannel.dataset.manifest, pendingChannel.dataset.key);
+      video.poster = pendingChannel?.dataset.poster || '';
       if(document.fullscreenElement==null && playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
       video.controls=false;
       liveBadge.style.opacity=1;
@@ -479,6 +481,7 @@ tabs.forEach(tab=>{
 </script>
 </body>
 </html>
+
 
 
 
