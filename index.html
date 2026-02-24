@@ -12,7 +12,7 @@ html, body { margin:0; height:100%; background:#000; display:flex; flex-directio
 #menuBtns{ display:flex; gap:10px; }
 .menuBtn{ background:#1f1f1f; color:#fff; border:none; padding:8px 54px; border-radius:8px; cursor:pointer; font-size:13px; }
 .menuBtn.active{ background:#d00000; }
-#mainWrap{ flex:1; margin-top:80px; display:flex; justify-content:center; align-items:flex-start; padding:20px;   z-index:1000;     }
+#mainWrap{ flex:1; margin-top:80px; display:flex; justify-content:center; align-items:flex-start; padding:20px;        }
 #channelSelect { display:grid; grid-template-columns:repeat(4, 1fr); gap:20px; justify-items:center; align-items:center; background:#111; padding:20px; border-radius:12px; transition: opacity 0.3s; }
 .channelBtn { width:140px; height:140px; border-radius:12px; background:#000; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 0 10px rgba(255,255,255,.15); transition: transform 0.2s; }
 .channelBtn:hover { transform: scale(1.05); }
@@ -415,8 +415,55 @@ tabs.forEach(tab=>{
 });
 </script>
 
+
+<script>
+/* ===== WIDESCREEN TOGGLE (NO HTML EDIT) ===== */
+
+(function () {
+
+  const video = document.getElementById('video');
+  const playerContainer = document.getElementById('playerContainer');
+
+  let isWide = false;
+
+  const btn = document.createElement('button');
+  btn.textContent = 'WIDE';
+  btn.id = 'wideBtn';
+
+  btn.style.position = 'absolute';
+  btn.style.bottom = '20px';
+  btn.style.right = '20px';
+  btn.style.zIndex = '2000';
+  btn.style.padding = '8px 14px';
+  btn.style.borderRadius = '6px';
+  btn.style.border = 'none';
+  btn.style.cursor = 'pointer';
+  btn.style.background = 'rgba(0,0,0,0.6)';
+  btn.style.color = '#fff';
+  btn.style.fontSize = '13px';
+
+  btn.addEventListener('click', function () {
+
+    isWide = !isWide;
+
+    if (isWide) {
+      video.style.objectFit = 'cover';   // widescreen / zoom
+      btn.textContent = 'FIT';
+    } else {
+      video.style.objectFit = 'contain'; // balik normal
+      btn.textContent = 'WIDE';
+    }
+
+  });
+
+  playerContainer.appendChild(btn);
+
+})();
+</script>
+  
 </body>
 </html>
+
 
 
 
