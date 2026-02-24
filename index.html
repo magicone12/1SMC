@@ -499,9 +499,54 @@ tabs.forEach(tab=>{
 })();
 </script>
 
-  
+
+
+
+
+
+
+  <script>
+/* ===== FORCE SYNC : LIVE + BACK + STRETCH ===== */
+
+(function(){
+
+  const video = document.getElementById('video');
+
+  const liveBadge  = document.getElementById('liveBadge');
+  const backBtn    = document.getElementById('backBtn');
+
+  function getStretchBtn(){
+    return document.getElementById('stretchBtn');
+  }
+
+  let visible = false;
+
+  function setAll(show){
+
+    visible = show;
+
+    if(liveBadge)  liveBadge.style.opacity  = show ? 1 : 0;
+    if(backBtn)    backBtn.style.opacity    = show ? 1 : 0;
+
+    const stretchBtn = getStretchBtn();
+    if(stretchBtn) stretchBtn.style.opacity = show ? 1 : 0;
+  }
+
+  /* 👉 PAG NAG PLAY – LALABAS SILANG TATLO */
+  video.addEventListener('play', function(){
+    setAll(true);
+  });
+
+  /* 👉 PAG CLICK SA VIDEO – TOGGLE SILANG TATLO */
+  video.addEventListener('click', function(){
+    setAll(!visible);
+  });
+
+})();
+</script>
 </body>
 </html>
+
 
 
 
