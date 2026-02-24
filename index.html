@@ -429,47 +429,26 @@ tabs.forEach(tab=>{
 
 
 <script>
-/* ==== SMART AUTO STRETCH + SAME TOGGLE WITH BACK/LIVE ==== */
+/* ==== FIXED AUTO STRETCH (NO BUTTON / ALWAYS ON) ==== */
 (function(){
 
   const video = document.getElementById('video');
   const playerContainer = document.getElementById('playerContainer');
 
-  let enabled = false;
-
-  const btn = document.createElement('button');
-  btn.id = 'stretchBtn';
-  btn.textContent = 'STRETCH';
-
-  btn.style.position = 'absolute';
-  btn.style.top = '14px';
-  btn.style.right = '90px';   // dikit sa BACK
-  btn.style.zIndex = '1002';
-  btn.style.padding = '6px 12px';
-  btn.style.borderRadius = '6px';
-  btn.style.border = 'none';
-  btn.style.cursor = 'pointer';
-  btn.style.background = 'rgba(34,34,34,0.5)';
-  btn.style.color = '#fff';
-  btn.style.fontSize = '14px';
-  btn.style.opacity = 0;
-  btn.style.transition = 'opacity 0.3s';
-
-  playerContainer.appendChild(btn);
-
   function applyStretch(){
 
-    if(!enabled) return;
     if(!video.videoWidth || !video.videoHeight) return;
 
     const vw = playerContainer.clientWidth;
     const vh = playerContainer.clientHeight;
 
-    const vr = video.videoWidth / video.videoHeight;
-    const cr = vw / vh;
+    const vr = video.videoWidth / video.videoHeight; // video ratio
+    const cr = vw / vh;                               // container ratio
 
+    // normal fit muna
     video.style.objectFit = 'contain';
 
+    // left & right stretch lang kapag may black bars sa gilid
     if (vr < cr) {
       const scaleX = cr / vr;
       video.style.transform = 'scaleX(' + scaleX + ')';
@@ -478,74 +457,20 @@ tabs.forEach(tab=>{
     }
   }
 
-  btn.onclick = (e) => {
-    e.stopPropagation();
-
-    enabled = !enabled;
-
-    if(enabled){
-      btn.textContent = 'NORMAL';
-      applyStretch();
-    }else{
-      btn.textContent = 'STRETCH';
-      video.style.transform = 'scaleX(1)';
-      video.style.objectFit = 'contain';
-    }
-  };
-
+  // kapag ready na ang video
   video.addEventListener('loadedmetadata', applyStretch);
+
+  // kapag nag resize / rotate / fullscreen / TV
   window.addEventListener('resize', applyStretch);
 
-})();
-</script>
-
-
-
-
-
-
-
-  <script>
-/* ===== FORCE SYNC : LIVE + BACK + STRETCH ===== */
-
-(function(){
-
-  const video = document.getElementById('video');
-
-  const liveBadge  = document.getElementById('liveBadge');
-  const backBtn    = document.getElementById('backBtn');
-
-  function getStretchBtn(){
-    return document.getElementById('stretchBtn');
-  }
-
-  let visible = false;
-
-  function setAll(show){
-
-    visible = show;
-
-    if(liveBadge)  liveBadge.style.opacity  = show ? 1 : 0;
-    if(backBtn)    backBtn.style.opacity    = show ? 1 : 0;
-
-    const stretchBtn = getStretchBtn();
-    if(stretchBtn) stretchBtn.style.opacity = show ? 1 : 0;
-  }
-
-  /* 👉 PAG NAG PLAY – LALABAS SILANG TATLO */
-  video.addEventListener('play', function(){
-    setAll(true);
-  });
-
-  /* 👉 PAG CLICK SA VIDEO – TOGGLE SILANG TATLO */
-  video.addEventListener('click', function(){
-    setAll(!visible);
-  });
+  // safety: kapag nag play
+  video.addEventListener('play', applyStretch);
 
 })();
 </script>
 </body>
 </html>
+
 
 
 
