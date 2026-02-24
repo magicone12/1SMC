@@ -460,9 +460,70 @@ tabs.forEach(tab=>{
 
 })();
 </script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+/* ===== HORIZONTAL STRETCH TOGGLE (LEFT / RIGHT ONLY) ===== */
+(function () {
+
+  const video = document.getElementById('video');
+  const playerContainer = document.getElementById('playerContainer');
+
+  let isStretch = false;
+
+  const btn = document.createElement('button');
+  btn.textContent = 'STRETCH';
+  btn.style.position = 'absolute';
+  btn.style.bottom = '20px';
+  btn.style.right = '20px';
+  btn.style.zIndex = '2000';
+  btn.style.padding = '8px 14px';
+  btn.style.borderRadius = '6px';
+  btn.style.border = 'none';
+  btn.style.cursor = 'pointer';
+  btn.style.background = 'rgba(0,0,0,0.6)';
+  btn.style.color = '#fff';
+  btn.style.fontSize = '13px';
+
+  btn.onclick = () => {
+
+    isStretch = !isStretch;
+
+    if (isStretch) {
+
+      // stretch lang sa left & right
+      video.style.objectFit = 'contain';
+      video.style.transform = 'scaleX(1.25)';
+
+      btn.textContent = 'NORMAL';
+
+    } else {
+
+      video.style.transform = 'scaleX(1)';
+      btn.textContent = 'STRETCH';
+
+    }
+
+  };
+
+  playerContainer.appendChild(btn);
+
+})();
+</script>
+
   
 </body>
 </html>
+
 
 
 
