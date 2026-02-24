@@ -418,13 +418,13 @@ tabs.forEach(tab=>{
 
 
 <script>
-/* ===== HORIZONTAL STRETCH TOGGLE (LEFT / RIGHT ONLY) ===== */
-(function () {
+/* ==== SMART AUTO STRETCH (ALL SCREENS / ALL DEVICES) ==== */
+(function(){
 
   const video = document.getElementById('video');
   const playerContainer = document.getElementById('playerContainer');
 
-  let isStretch = false;
+  let enabled = false;
 
   const btn = document.createElement('button');
   btn.textContent = 'STRETCH';
@@ -440,28 +440,48 @@ tabs.forEach(tab=>{
   btn.style.color = '#fff';
   btn.style.fontSize = '13px';
 
-  btn.onclick = () => {
+  playerContainer.appendChild(btn);
 
-    isStretch = !isStretch;
+  function applyStretch(){
 
-    if (isStretch) {
+    if(!enabled) return;
 
-      // stretch lang sa left & right
-      video.style.objectFit = 'contain';
-      video.style.transform = 'scaleX(1.15)';
+    const vw = playerContainer.clientWidth;
+    const vh = playerContainer.clientHeight;
 
-      btn.textContent = 'NORMAL';
+    const vr = video.videoWidth / video.videoHeight;
+    const cr = vw / vh;
 
+    // fit muna (katulad ng normal)
+    video.style.objectFit = 'contain';
+
+    // kung mas makitid ang video kaysa sa screen
+    if (vr < cr) {
+      const scaleX = cr / vr;
+      video.style.transform = 'scaleX(' + scaleX + ')';
     } else {
-
       video.style.transform = 'scaleX(1)';
-      btn.textContent = 'STRETCH';
-
     }
+  }
 
+  btn.onclick = () => {
+    enabled = !enabled;
+
+    if(enabled){
+      btn.textContent = 'NORMAL';
+      applyStretch();
+    }else{
+      btn.textContent = 'STRETCH';
+      video.style.transform = 'scaleX(1)';
+      video.style.objectFit = 'contain';
+    }
   };
 
-  playerContainer.appendChild(btn);
+  // kapag ready na ang video
+  video.addEventListener('loadedmetadata', applyStretch);
+
+  // kapag nag rotate / resize (phone, tv, pc, android tv, tv box)
+  window.addEventListener('resize', applyStretch);
 
 })();
 </script>
@@ -469,6 +489,7 @@ tabs.forEach(tab=>{
   
 </body>
 </html>
+
 
 
 
