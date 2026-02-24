@@ -307,6 +307,7 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
 <script>
 const video = document.getElementById('video');
 const playerContainer = document.getElementById('playerContainer');
+  let lastSelectedChannel = null;  // <- Para maalala ang huling pinili
 const backBtn = document.getElementById('backBtn');
 const liveBadge = document.getElementById('liveBadge');
 const topBar = document.getElementById('topBar');
@@ -346,6 +347,13 @@ function goBack(){
   video.src='';
   liveBadge.style.opacity=0;
   backBtn.style.opacity=0;
+
+    // Highlight last selected channel
+  if(lastSelectedChannel){
+    lastSelectedChannel.scrollIntoView({behavior:'smooth', block:'center'});
+    document.querySelectorAll('.channelBtn').forEach(ch=>ch.style.boxShadow='0 0 10px rgba(255,255,255,.15)');
+    lastSelectedChannel.style.boxShadow='0 0 15px rgba(208,0,0,0.9)';
+  }
 }
 
 // Toggle live badge
@@ -370,6 +378,7 @@ document.querySelectorAll('.channelBtn').forEach(btn=>{
   btn.addEventListener('click', async ()=>{
     const type = btn.dataset.type;
     pendingChannel = btn;
+    lastSelectedChannel = btn;   // <- Ito ang nagtatala ng huling channel na pinili
     if(type==='MOVIES2'){
       loginOverlay.style.display='flex';
       loginPass.value='';
@@ -470,6 +479,7 @@ tabs.forEach(tab=>{
 </script>
 </body>
 </html>
+
 
 
 
