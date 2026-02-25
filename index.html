@@ -323,33 +323,60 @@ let pendingChannel = null;
 
 // Video Player Init
 async function initPlayer(manifest, key){
-  if(player){ player.destroy(); player=null; }
-  if(manifest.endsWith('.mp4')){ video.src = manifest; } 
-  else {
-    player = new shaka.Player(video);
 
-    player.configure({
-
-  streaming: {
-    lowLatencyMode: true,
-    bufferingGoal: 12,
-    rebufferingGoal: 1.5,
-    jumpLargeGaps: true,
-    stallEnabled: true,
-
-    retryParameters:{
-      maxAttempts: 8,
-      baseDelay: 300,
-      backoffFactor: 1.3
-    }
-  },
-
-  abr:{
-    enabled: true,
-    defaultBandwidthEstimate: 2500000
+  if(player){
+    await player.destroy();
+    player = null;
   }
 
-});
+  // MP4
+  if(manifest.endsWith('.mp4')){
+    video.src = manifest;
+    await video.play().catch(()=>{});
+    return;
+  }
+
+  // Shaka (DASH / HLS)
+  player = new shaka.Player(video);
+
+  // kung may key
+  if(key){
+    const [kid, k] = key.split(':');
+    player.configure({
+      drm:{
+        clearKeys:{
+          [kid]: k
+        }
+      }
+    });
+  }
+
+  player.configure({
+
+    streaming: {
+      lowLatencyMode: true,
+      bufferingGoal: 12,
+      rebufferingGoal: 1.5,
+      jumpLargeGaps: true,
+      stallEnabled: true,
+
+      retryParameters:{
+        maxAttempts: 8,
+        baseDelay: 300,
+        backoffFactor: 1.3
+      }
+    },
+
+    abr:{
+      enabled: true,
+      defaultBandwidthEstimate: 2500000
+    }
+
+  });
+
+  await player.load(manifest);
+
+}
 
 // Back button
 function goBack(){
@@ -496,6 +523,7 @@ tabs.forEach(tab=>{
 </script>
 </body>
 </html>
+
 
 
 
