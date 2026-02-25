@@ -351,28 +351,27 @@ async function initPlayer(manifest, key){
     });
   }
 
- player.configure({
+player.configure({
 
   streaming: {
     lowLatencyMode: true,
 
-    bufferingGoal: 6,        // dati 12 → mas mabilis mag start
-    rebufferingGoal: 0.8,    // mas mabilis mag resume
+    bufferingGoal: 10,       // sapat na buffer para hindi mamatay
+    rebufferingGoal: 2.5,    // mas stable sa live
 
     jumpLargeGaps: true,
-    stallEnabled: false,    // mas mabilis mag umpisa
+    stallEnabled: true,     // IMPORTANT: ibalik ito
 
     retryParameters:{
-      maxAttempts: 5,
-      baseDelay: 200,
-      backoffFactor: 1.2
+      maxAttempts: 8,
+      baseDelay: 300,
+      backoffFactor: 1.3
     }
   },
 
   abr:{
     enabled: true,
-    defaultBandwidthEstimate: 4000000, // mas mabilis pumili ng quality
-    switchInterval: 4
+    defaultBandwidthEstimate: 2500000
   }
 
 });
@@ -525,6 +524,7 @@ tabs.forEach(tab=>{
 </script>
 </body>
 </html>
+
 
 
 
