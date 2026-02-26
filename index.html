@@ -346,24 +346,24 @@ async function initPlayer(manifest, key){
 player.configure({
 
   streaming: {
-    lowLatencyMode: true,
+    lowLatencyMode: false,
 
-    bufferingGoal: 10,       // sapat na buffer para hindi mamatay
-    rebufferingGoal: 2.5,    // mas stable sa live
+    bufferingGoal: 25,
+    rebufferingGoal: 6,
 
     jumpLargeGaps: true,
-    stallEnabled: true,     // IMPORTANT: ibalik ito
+    stallEnabled: true,
 
     retryParameters:{
-      maxAttempts: 8,
-      baseDelay: 300,
-      backoffFactor: 1.3
+      maxAttempts: 10,
+      baseDelay: 500,
+      backoffFactor: 1.4
     }
   },
 
   abr:{
     enabled: true,
-    defaultBandwidthEstimate: 2500000
+    defaultBandwidthEstimate: 3500000
   }
 
 });
@@ -516,6 +516,7 @@ tabs.forEach(tab=>{
 </script>
 </body>
 </html>
+
 
 
 
