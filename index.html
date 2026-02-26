@@ -474,60 +474,6 @@ setWatermarkPosition('bottom-right');  // predefined corner
 
 
 
-function setWatermarkResponsive(posOrXY) {
-  const logo = document.getElementById('watermarkLogo');
-  const container = document.getElementById('playerContainer');
-  if (!logo || !container) return;
-
-  // Reset position
-  logo.style.top = 'auto';
-  logo.style.bottom = 'auto';
-  logo.style.left = 'auto';
-  logo.style.right = 'auto';
-
-  // Predefined corners
-  if (typeof posOrXY === 'string') {
-    const offset = Math.max(container.clientWidth, container.clientHeight) * 0.03; // 3% margin
-    switch(posOrXY){
-      case 'bottom-right':
-        logo.style.bottom = offset + 'px';
-        logo.style.right  = offset + 'px';
-        break;
-      case 'bottom-left':
-        logo.style.bottom = offset + 'px';
-        logo.style.left   = offset + 'px';
-        break;
-      case 'top-right':
-        logo.style.top    = offset + 'px';
-        logo.style.right  = offset + 'px';
-        break;
-      case 'top-left':
-        logo.style.top    = offset + 'px';
-        logo.style.left   = offset + 'px';
-        break;
-    }
-  }
-
-  // Custom XY position (pixels from top-left)
-  else if (typeof posOrXY === 'object') {
-    logo.style.left = (posOrXY.x ?? 0) + 'px';
-    logo.style.top  = (posOrXY.y ?? 0) + 'px';
-  }
-
-  // Adjust size relative sa container
-  const scale = container.clientWidth / 1920; // assuming base width 1920px
-  logo.style.width = Math.max(50, 90 * scale) + 'px';
-}
-
-// Auto-adjust kapag resize / rotate / fullscreen
-window.addEventListener('resize', () => {
-  setWatermarkResponsive('bottom-right'); // default corner
-});
-
-
-
-
-
 
 
 
@@ -690,11 +636,63 @@ window.addEventListener('load', () => {
   video.addEventListener('play', applyStretch);
 
 })();
+
+
+
+
+  function setWatermarkResponsive(posOrXY) {
+  const logo = document.getElementById('watermarkLogo');
+  const container = document.getElementById('playerContainer');
+  if (!logo || !container) return;
+
+  // Reset position
+  logo.style.top = 'auto';
+  logo.style.bottom = 'auto';
+  logo.style.left = 'auto';
+  logo.style.right = 'auto';
+
+  // Predefined corners
+  if (typeof posOrXY === 'string') {
+    const offset = Math.max(container.clientWidth, container.clientHeight) * 0.03;
+    switch(posOrXY){
+      case 'bottom-right':
+        logo.style.bottom = offset + 'px';
+        logo.style.right  = offset + 'px';
+        break;
+      case 'bottom-left':
+        logo.style.bottom = offset + 'px';
+        logo.style.left   = offset + 'px';
+        break;
+      case 'top-right':
+        logo.style.top    = offset + 'px';
+        logo.style.right  = offset + 'px';
+        break;
+      case 'top-left':
+        logo.style.top    = offset + 'px';
+        logo.style.left   = offset + 'px';
+        break;
+    }
+  }
+
+  // Custom XY
+  else if (typeof posOrXY === 'object') {
+    logo.style.left = (posOrXY.x ?? 0) + 'px';
+    logo.style.top  = (posOrXY.y ?? 0) + 'px';
+  }
+
+  // Adjust size relative sa container
+  const scale = container.clientWidth / 1920;
+  logo.style.width = Math.max(50, 90 * scale) + 'px';
+}
+
+// Auto-update on resize/fullscreen
+window.addEventListener('resize', () => setWatermarkResponsive('bottom-right'));
 </script>
 
 
 </body>
 </html>
+
 
 
 
