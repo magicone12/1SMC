@@ -40,6 +40,8 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
   opacity:0.7;      /* watermark look */
   z-index:1003;
   pointer-events:none;
+ opacity:0.35;                 /* ← mas transparent */
+  filter: brightness(1.1);     /* optional, para malinaw pa rin */
 }
 </style>
 </head>
@@ -384,6 +386,49 @@ player.configure({
 
 }
 
+
+function setWatermarkPosition(pos){
+
+  const logo = document.getElementById('watermarkLogo');
+  if(!logo) return;
+
+  // reset muna
+  logo.style.top = 'auto';
+  logo.style.bottom = 'auto';
+  logo.style.left = 'auto';
+  logo.style.right = 'auto';
+
+  switch(pos){
+
+    case 'bottom-right':
+      logo.style.bottom = '18px';
+      logo.style.right  = '18px';
+      break;
+
+    case 'bottom-left':
+      logo.style.bottom = '18px';
+      logo.style.left   = '18px';
+      break;
+
+    case 'top-right':
+      logo.style.top   = '18px';
+      logo.style.right = '18px';
+      break;
+
+    case 'top-left':
+      logo.style.top  = '18px';
+      logo.style.left = '18px';
+      break;
+
+  }
+}
+
+
+
+
+
+
+  
 // Back button
 function goBack(){
   if(document.fullscreenElement){ document.exitFullscreen().catch(()=>{}); }
@@ -436,6 +481,7 @@ document.querySelectorAll('.channelBtn').forEach(btn=>{
     topBar.style.display='none';
     playerContainer.style.display='block';
     await initPlayer(btn.dataset.manifest, btn.dataset.key);
+    setWatermarkPosition('bottom-right');
     video.poster = pendingChannel?.dataset.poster || '';
     if(document.fullscreenElement==null && playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
     video.controls=false;
@@ -546,6 +592,7 @@ window.addEventListener('load', () => {
 
 </body>
 </html>
+
 
 
 
