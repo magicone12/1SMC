@@ -44,7 +44,7 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
   /* Pwede mong baguhin ito: */
   top: auto;            /* optional */
   bottom: 50px;         /* distansya mula sa baba */
-  left: 20px;           /* distansya mula sa kaliwa */
+  left: 50px;           /* distansya mula sa kaliwa */
   right: auto;          /* hindi ginagamit kapag may left */
 }
 </style>
@@ -513,7 +513,7 @@ document.querySelectorAll('.channelBtn').forEach(btn=>{
     topBar.style.display='none';
     playerContainer.style.display='block';
     await initPlayer(btn.dataset.manifest, btn.dataset.key);
-    setWatermarkPosition('bottom-right');
+    setWatermarkPosition('bottom-left');
     video.poster = pendingChannel?.dataset.poster || '';
     if(document.fullscreenElement==null && playerContainer.requestFullscreen) playerContainer.requestFullscreen().catch(()=>{});
     video.controls=false;
@@ -624,6 +624,7 @@ window.addEventListener('load', () => {
 
 </body>
 </html>
+
 
 
 
