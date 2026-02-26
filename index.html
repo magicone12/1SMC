@@ -468,6 +468,21 @@ tabs.forEach(tab=>{
     });
   });
 });
+
+
+  // default view = IPTV lang pag bukas ng page
+window.addEventListener('load', () => {
+
+  tabs.forEach(x => x.classList.remove('active'));
+  document.getElementById('btnIptv').classList.add('active');
+
+  document.querySelectorAll('.channelBtn').forEach(ch=>{
+    ch.style.display = (ch.dataset.type === 'IPTV') ? 'flex' : 'none';
+  });
+
+});
+
+  
 </script>
 
 
@@ -513,8 +528,11 @@ tabs.forEach(tab=>{
 
 })();
 </script>
+
+
 </body>
 </html>
+
 
 
 
