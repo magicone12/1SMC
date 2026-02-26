@@ -316,10 +316,9 @@ let pendingChannel = null;
 // Video Player Init
 async function initPlayer(manifest, key){
 
-  if(player){
-    await player.destroy();
-    player = null;
-  }
+ if(player){
+  try{ await player.unload(); }catch(e){}
+}
 
   // MP4
   if(manifest.endsWith('.mp4')){
@@ -516,6 +515,7 @@ tabs.forEach(tab=>{
 </script>
 </body>
 </html>
+
 
 
 
