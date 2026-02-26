@@ -427,39 +427,50 @@ function setWatermarkPosition(pos){
   }
 }
 
-function setWatermarkPosition(pos){
+// Set watermark anywhere, kahit full screen
+function setWatermarkPosition(posOrXY) {
   const logo = document.getElementById('watermarkLogo');
-  if(!logo) return;
+  if (!logo) return;
 
-  // reset muna
+  // Reset position
   logo.style.top = 'auto';
   logo.style.bottom = 'auto';
   logo.style.left = 'auto';
   logo.style.right = 'auto';
 
-  switch(pos){
-    case 'bottom-right':
-      logo.style.bottom = '50px';
-      logo.style.right  = '30px';
-      break;
-    case 'bottom-left':
-      logo.style.bottom = '50px';
-      logo.style.left   = '30px';
-      break;
-    case 'top-right':
-      logo.style.top    = '50px';
-      logo.style.right  = '30px';
-      break;
-    case 'top-left':
-      logo.style.top    = '50px';
-      logo.style.left   = '30px';
-      break;
+  // kung string: 'top-left', 'bottom-right', etc
+  if (typeof posOrXY === 'string') {
+    switch(posOrXY){
+      case 'bottom-right':
+        logo.style.bottom = '50px';
+        logo.style.right  = '30px';
+        break;
+      case 'bottom-left':
+        logo.style.bottom = '50px';
+        logo.style.left   = '30px';
+        break;
+      case 'top-right':
+        logo.style.top    = '50px';
+        logo.style.right  = '30px';
+        break;
+      case 'top-left':
+        logo.style.top    = '50px';
+        logo.style.left   = '30px';
+        break;
+    }
+  }
+
+  // kung object: {x: number, y: number} pixels mula sa top-left
+  else if (typeof posOrXY === 'object') {
+    logo.style.left = (posOrXY.x ?? 0) + 'px';
+    logo.style.top  = (posOrXY.y ?? 0) + 'px';
   }
 }
 
-
-
-
+// Example usage sa initPlayer o channel click:
+setWatermarkPosition('bottom-right');  // predefined corner
+// o custom position
+// setWatermarkPosition({x: 100, y: 80});
   
 // Back button
 function goBack(){
@@ -624,6 +635,7 @@ window.addEventListener('load', () => {
 
 </body>
 </html>
+
 
 
 
