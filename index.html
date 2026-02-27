@@ -354,7 +354,7 @@ async function initPlayer(manifest, key){
   }
 
   // Shaka (DASH / HLS)
- video.muted = true;
+ video.muted = false;
 video.playsInline = true;
 
 player = new shaka.Player(video);
@@ -477,7 +477,7 @@ function setWatermarkPosition(posOrXY) {
 }
 
 // Example usage sa initPlayer o channel click:
-setWatermarkPosition('bottom-right');  // predefined corner
+setWatermarkPosition('bottom-left');  // predefined corner
 // o custom position
 // setWatermarkPosition({x: 100, y: 80});
 
@@ -701,6 +701,7 @@ window.addEventListener('resize', () => setWatermarkResponsive('bottom-left'));
 
 </body>
 </html>
+
 
 
 
