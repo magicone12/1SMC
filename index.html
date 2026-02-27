@@ -317,6 +317,13 @@ video { width:100%; height:100%; object-fit:contain; background:#000; cursor:poi
 </div>
 
 <script>
+<script>
+shaka.polyfill.installAll();
+
+if (!shaka.Player.isBrowserSupported()) {
+  alert("Browser not supported by Shaka Player");
+}
+
 const video = document.getElementById('video');
 const playerContainer = document.getElementById('playerContainer');
   let lastSelectedChannel = null;  // <- Para maalala ang huling pinili
@@ -348,7 +355,10 @@ async function initPlayer(manifest, key){
   }
 
   // Shaka (DASH / HLS)
-  player = new shaka.Player(video);
+ video.muted = true;
+video.playsInline = true;
+
+player = new shaka.Player(video);
 
   // kung may key
   if(key){
@@ -386,8 +396,8 @@ player.configure({
   }
 
 });
-  await player.load(manifest);
-
+ await player.load(manifest);
+await video.play().catch(()=>{});
 }
 
 
@@ -692,6 +702,7 @@ window.addEventListener('resize', () => setWatermarkResponsive('bottom-left'));
 
 </body>
 </html>
+
 
 
 
